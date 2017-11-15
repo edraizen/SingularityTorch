@@ -50,7 +50,6 @@ make && make install
 
 cd
 apt-get install libsparsehash-dev
-ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 git -c http.sslVerify=false clone http://github.com/facebookresearch/SparseConvNet.git
 cd SparseConvNet/PyTorch/
 python setup.py develop
