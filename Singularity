@@ -50,7 +50,7 @@ cd freesasa-2.0.2
 ./configure CFLAGS=-fPIC --enable-python-bindings --disable-json --disable-xml
 make && make install
 
-cd
+cd /
 apt-get install libsparsehash-dev
 git -c http.sslVerify=false clone http://github.com/facebookresearch/SparseConvNet.git
 cd SparseConvNet/PyTorch/
