@@ -50,7 +50,7 @@ make && make install
 
 cd
 apt-get install libsparsehash-dev
-git clone git@github.com:facebookresearch/SparseConvNet.git
+git -c http.sslVerify=false clone git@github.com:facebookresearch/SparseConvNet.git
 cd SparseConvNet/PyTorch/
 python setup.py develop
 pip install git+https://github.com/pytorch/tnt.git@master
