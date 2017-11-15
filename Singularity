@@ -42,6 +42,7 @@ pip install mayavi
 pip install --upgrade notebook
 pip install cython
 pip install Biopython
+pip install cffi
 
 wget http://freesasa.github.io/freesasa-2.0.2.tar.gz
 tar -xzf freesasa-2.0.2.tar.gz
