@@ -50,9 +50,8 @@ cd $working_dir
 echo "Adding NVIDIA PATHs to /environment..."
 NV_DRIVER_PATH=/usr/local/NVIDIA-Linux-x86_64
 
-LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$NV_DRIVER_PATH:\$LD_LIBRARY_PATH
-PATH=$NV_DRIVER_PATH:\$PATH
-export PATH LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$NV_DRIVER_PATH
+export PATH=$PATH:$NV_DRIVER_PATH
 
 wget ftp://ftp.cmbi.ru.nl/pub/software/dssp/dssp-2.0.4-linux-i386 -O /usr/local/bin/dssp
 chmod a+x /usr/local/bin/dssp
