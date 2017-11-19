@@ -1,5 +1,5 @@
 BootStrap: docker
-From: nvidia/cuda:8.0-cudnn6-runtime-ubuntu16.04
+From: nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
 
 ################################################################################
 %labels
@@ -23,35 +23,6 @@ apt-get update
 apt-get install -y wget libhdf5-dev graphviz locales python python-pip git xvfb python-vtk pdb2pqr python-pandas
 locale-gen en_US.UTF-8
 apt-get clean
-
-export LC_ALL=C
-export PATH=/bin:/sbin:/usr/bin:/usr/sbin:$PATH
-
-NV_DRIVER_VERSION=375.26      # <---- EDIT: CHANGE THIS FOR YOUR SYSTEM
-NV_DRIVER_FILE=NVIDIA-Linux-x86_64-${NV_DRIVER_VERSION}.run
-
-working_dir=$(pwd)
-# download and run NIH NVIDIA driver installer
-wget http://us.download.nvidia.com/XFree86/Linux-x86_64/${NV_DRIVER_VERSION}/NVIDIA-Linux-x86_64-${NV_DRIVER_VERSION}.run
-
-echo "Unpacking NVIDIA driver into container..."
-cd /usr/local/
-sh ${working_dir}/${NV_DRIVER_FILE} -x
-rm ${working_dir}/${NV_DRIVER_FILE}    
-mv NVIDIA-Linux-x86_64-${NV_DRIVER_VERSION} NVIDIA-Linux-x86_64
-cd NVIDIA-Linux-x86_64/
-for n in *.$NV_DRIVER_VERSION; do
-    ln -v -s $n ${n%.375.26}   # <---- EDIT: CHANGE THIS IF DRIVER VERSION
-done
-ln -v -s libnvidia-ml.so.$NV_DRIVER_VERSION libnvidia-ml.so.1
-ln -v -s libcuda.so.$NV_DRIVER_VERSION libcuda.so.1
-cd $working_dir
-
-echo "Adding NVIDIA PATHs to /environment..."
-NV_DRIVER_PATH=/usr/local/NVIDIA-Linux-x86_64
-
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$NV_DRIVER_PATH
-export PATH=$PATH:$NV_DRIVER_PATH
 
 wget ftp://ftp.cmbi.ru.nl/pub/software/dssp/dssp-2.0.4-linux-i386 -O /usr/local/bin/dssp
 chmod a+x /usr/local/bin/dssp
