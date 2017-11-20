@@ -29,10 +29,10 @@ apt-get install -y wget libhdf5-dev graphviz locales python python-pip git xvfb 
 locale-gen en_US.UTF-8
 apt-get clean
 
-curl -o ./anaconda.sh -O https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh
-chmot +x ./anaconda.sh
-bash ./anaconda.sh -b -p /anaconda
-rm ./anaconda.sh
+curl -LO https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh
+chmot +x ./Anaconda2-5.0.1-Linux-x86_64.sh
+bash ./Anaconda2-5.0.1-Linux-x86_64.sh -b -p /anaconda
+rm ./Anaconda2-5.0.1-Linux-x86_64.sh
 /anaconda/bin/conda install pytorch torchvision magma-cuda80 -c soumith
 
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
