@@ -39,10 +39,8 @@ gunzip /usr/local/bin/CX.c.gz
 gcc -o /usr/local/bin/cx /usr/local/bin/CX.c -lm
 rm /usr/local/bin/CX.c
 
-pip install --upgrade pip
-pip install --upgrade numpy
 /anaconda/bin/conda install scikit-learn 
-/anaconda/bin/conda install mayavi
+#/anaconda/bin/conda install mayavi
 /anaconda/bin/conda install cython
 /anaconda/bin/conda install Biopython
 #/anaconda/bin/conda install cffi
