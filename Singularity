@@ -43,7 +43,8 @@ rm /usr/local/bin/CX.c
 #/anaconda/bin/conda install mayavi
 /anaconda/bin/conda install cython
 /anaconda/bin/conda install Biopython
-#/anaconda/bin/conda install cffi
+
+ls -la /anaconda.bin/
 
 wget http://freesasa.github.io/freesasa-2.0.2.tar.gz
 tar -xzf freesasa-2.0.2.tar.gz
