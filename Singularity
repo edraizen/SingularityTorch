@@ -41,13 +41,11 @@ rm /usr/local/bin/CX.c
 
 pip install --upgrade pip
 pip install --upgrade numpy
-#pip install http://download.pytorch.org/whl/cu80/torch-0.2.0.post3-cp27-cp27mu-manylinux1_x86_64.whl 
-/anaconda/bin/conda install setuptools wheel Pillow scikit-learn matplotlib ipython==5.5.0
-/anaconda/bin/conda install h5py
+/anaconda/bin/conda install scikit-learn 
 /anaconda/bin/conda install mayavi
 /anaconda/bin/conda install cython
 /anaconda/bin/conda install Biopython
-/anaconda/bin/conda install cffi
+#/anaconda/bin/conda install cffi
 
 wget http://freesasa.github.io/freesasa-2.0.2.tar.gz
 tar -xzf freesasa-2.0.2.tar.gz
