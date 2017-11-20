@@ -18,17 +18,22 @@ export CUDA_HOME=/usr/local/cuda
 %post
 ################################################################################
 
-###
-### install keras + tensorflow + other useful packages
-###
+echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
+
 apt-get update
-apt-get install -y wget libhdf5-dev graphviz locales python python-pip git xvfb python-vtk pdb2pqr python-pandas curl
+apt-get install -y wget libhdf5-dev graphviz locales python python-pip git xvfb python-vtk pdb2pqr python-pandas curl ca-certificates \
+         libnccl2=2.0.5-2+cuda8.0 \
+         libnccl-dev=2.0.5-2+cuda8.0 \
+         libjpeg-dev \
+         libpng-dev
 locale-gen en_US.UTF-8
 apt-get clean
 
-curl -LO "https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh"
-bash ./Anaconda2-5.0.1-Linux-x86_64.sh -b -p /anaconda
-/anaconda/bin/conda install pytorch torchvision cuda80 -c soumith
+curl -o ./anaconda.sh -O https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh
+chmot +x ./anaconda.sh
+bash ./anaconda.sh -b -p /anaconda
+rm ./anaconda.sh
+/anaconda/bin/conda install pytorch torchvision magma-cuda80 -c soumith
 
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 export CUDA_HOME=/usr/local/cuda
