@@ -62,7 +62,10 @@ apt-get install libsparsehash-dev
 git -c http.sslVerify=false clone http://github.com/facebookresearch/SparseConvNet.git
 cd SparseConvNet/PyTorch/
 /anaconda/bin/python setup.py develop
-/anacaonda/bin/pip install git+https://github.com/pytorch/tnt.git@master
+
+git -c http.sslVerify=false clone http://github.com/pytorch/tnt.git
+cd tnt
+/anaconda/bin/python setup.py develop
 
 ###
 ### destination for NIH HPC bind mounts
