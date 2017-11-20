@@ -28,7 +28,7 @@ apt-get clean
 
 curl -LO "https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh"
 bash ./Anaconda2-5.0.1-Linux-x86_64.sh -b -p /anaconda
-conda install pytorch torchvision cuda80 -c soumith
+/anaconda/bin/conda install pytorch torchvision cuda80 -c soumith
 
 
 wget ftp://ftp.cmbi.ru.nl/pub/software/dssp/dssp-2.0.4-linux-i386 -O /usr/local/bin/dssp
@@ -42,13 +42,12 @@ rm /usr/local/bin/CX.c
 pip install --upgrade pip
 pip install --upgrade numpy
 #pip install http://download.pytorch.org/whl/cu80/torch-0.2.0.post3-cp27-cp27mu-manylinux1_x86_64.whl 
-conda install setuptools wheel Pillow scikit-learn matplotlib ipython==5.5.0
-conda install h5py
-conda install mayavi
-conda install notebook
-conda install cython
-conda install Biopython
-conda install cffi
+/anaconda/bin/conda install setuptools wheel Pillow scikit-learn matplotlib ipython==5.5.0
+/anaconda/bin/conda install h5py
+/anaconda/bin/conda install mayavi
+/anaconda/bin/conda install cython
+/anaconda/bin/conda install Biopython
+/anaconda/bin/conda install cffi
 
 wget http://freesasa.github.io/freesasa-2.0.2.tar.gz
 tar -xzf freesasa-2.0.2.tar.gz
