@@ -44,12 +44,12 @@ rm /usr/local/bin/CX.c
 /anaconda/bin/conda install cython
 /anaconda/bin/conda install Biopython
 
-ls -la /anaconda/bin/
+pip install cython
 
 wget http://freesasa.github.io/freesasa-2.0.2.tar.gz
 tar -xzf freesasa-2.0.2.tar.gz
 cd freesasa-2.0.2
-./configure CFLAGS=-fPIC --enable-python-bindings --with-python=/anaconda/bin/python2.7 --disable-json --disable-xml
+./configure CFLAGS=-fPIC --enable-python-bindings --disable-json --disable-xml
 make && make install
 
 echo "Torch can see GPUs"
