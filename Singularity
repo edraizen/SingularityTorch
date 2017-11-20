@@ -21,7 +21,7 @@ export CUDA_HOME=/usr/local/cuda
 echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
 apt-get update
-apt-get install -y wget libhdf5-dev graphviz locales python python-pip git xvfb python-vtk pdb2pqr curl ca-certificates \
+apt-get install -y wget libhdf5-dev graphviz locales python python-pip git xvfb curl ca-certificates \
          libnccl2=2.0.5-2+cuda8.0 \
          libnccl-dev=2.0.5-2+cuda8.0 \
          libjpeg-dev \
@@ -48,12 +48,13 @@ gcc -o /usr/local/bin/cx /usr/local/bin/CX.c -lm
 rm /usr/local/bin/CX.c
 
 /anaconda/bin/conda install scikit-learn 
-#/anaconda/bin/conda install mayavi
+/anaconda/bin/conda install mayavi
 /anaconda/bin/conda install cython
 /anaconda/bin/conda install Biopython
+/anaconda/bin/conda install pdb2pqr
 
+#FreeSASA can only install to defualt python, so get a copy of cython
 pip install cython
-
 wget http://freesasa.github.io/freesasa-2.0.2.tar.gz
 tar -xzf freesasa-2.0.2.tar.gz
 cd freesasa-2.0.2
@@ -65,7 +66,7 @@ echo " Can Torch can see GPUs?"
 
 cd /
 apt-get install libsparsehash-dev
-git -c http.sslVerify=false clone http://github.com/facebookresearch/SparseConvNet.git
+git -c http.sslVerify=false clone http://github.com/edraizen/SparseConvNet.git
 cd SparseConvNet/PyTorch/
 /anaconda/bin/python setup.py develop
 
