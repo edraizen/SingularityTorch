@@ -10,7 +10,7 @@ MAINTAINER Wolfgang Resch, Eli Driazen
 %environment
 ################################################################################
 export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/cuda/bin:$PATH
-export PYTHONPATH=/usr/share/pdb2pqr:/anaconda/lib/python2.7:$PYTHONPATH
+export PYTHONPATH=/usr/share/pdb2pqr:/anaconda/lib/python2.7:/usr/lib/python2.7/dist-packages:$PYTHONPATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 export CUDA_HOME=/usr/local/cuda
 
@@ -30,6 +30,8 @@ curl -LO "https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh"
 bash ./Anaconda2-5.0.1-Linux-x86_64.sh -b -p /anaconda
 /anaconda/bin/conda install pytorch torchvision cuda80 -c soumith
 
+export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/cuda/bin:$PATH
+export PYTHONPATH=/usr/share/pdb2pqr:/anaconda/lib/python2.7:/usr/lib/python2.7/dist-packages:$PYTHONPATH
 
 wget ftp://ftp.cmbi.ru.nl/pub/software/dssp/dssp-2.0.4-linux-i386 -O /usr/local/bin/dssp
 chmod a+x /usr/local/bin/dssp
