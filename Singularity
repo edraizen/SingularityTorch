@@ -21,7 +21,7 @@ export CUDA_HOME=/usr/local/cuda
 echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
 apt-get update
-apt-get install -y wget libhdf5-dev graphviz locales python python-pip git xvfb curl ca-certificates \
+apt-get install -y wget libhdf5-dev graphviz locales python python-pip git pdb2pqr xvfb curl ca-certificates \
          libnccl2=2.0.5-2+cuda8.0 \
          libnccl-dev=2.0.5-2+cuda8.0 \
          libjpeg-dev \
@@ -51,7 +51,7 @@ rm /usr/local/bin/CX.c
 #/anaconda/bin/conda install mayavi
 /anaconda/bin/conda install cython
 /anaconda/bin/conda install Biopython
-/anaconda/bin/conda install -c electrostatics pdb2pqr
+#/anaconda/bin/conda install -c electrostatics pdb2pqr
 
 #FreeSASA can only install to defualt python, so get a copy of cython
 pip install cython
