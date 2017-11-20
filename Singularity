@@ -9,8 +9,8 @@ MAINTAINER Wolfgang Resch, Eli Driazen
 ################################################################################
 %environment
 ################################################################################
-export PATH=/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/cuda/bin:$PATH
-export PYTHONPATH=/usr/share/pdb2pqr:$PYTHONPATH
+export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/cuda/bin:$PATH
+export PYTHONPATH=/usr/share/pdb2pqr:/anaconda/lib/python2.7:$PYTHONPATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 export CUDA_HOME=/usr/local/cuda
 
@@ -22,9 +22,14 @@ export CUDA_HOME=/usr/local/cuda
 ### install keras + tensorflow + other useful packages
 ###
 apt-get update
-apt-get install -y wget libhdf5-dev graphviz locales python python-pip git xvfb python-vtk pdb2pqr python-pandas
+apt-get install -y wget libhdf5-dev graphviz locales python python-pip git xvfb python-vtk pdb2pqr python-pandas curl
 locale-gen en_US.UTF-8
 apt-get clean
+
+curl -LO "https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh"
+bash ./Anaconda2-5.0.1-Linux-x86_64.sh -b -p /anaconda
+conda install pytorch torchvision cuda80 -c soumith
+
 
 wget ftp://ftp.cmbi.ru.nl/pub/software/dssp/dssp-2.0.4-linux-i386 -O /usr/local/bin/dssp
 chmod a+x /usr/local/bin/dssp
@@ -36,15 +41,14 @@ rm /usr/local/bin/CX.c
 
 pip install --upgrade pip
 pip install --upgrade numpy
-pip install http://download.pytorch.org/whl/cu80/torch-0.2.0.post3-cp27-cp27mu-manylinux1_x86_64.whl 
-pip install torchvision
-pip install setuptools wheel Pillow scikit-learn matplotlib ipython==5.5.0
-pip install h5py
-pip install mayavi
-pip install --upgrade notebook
-pip install cython
-pip install Biopython
-pip install cffi
+#pip install http://download.pytorch.org/whl/cu80/torch-0.2.0.post3-cp27-cp27mu-manylinux1_x86_64.whl 
+conda install setuptools wheel Pillow scikit-learn matplotlib ipython==5.5.0
+conda install h5py
+conda install mayavi
+conda install notebook
+conda install cython
+conda install Biopython
+conda install cffi
 
 wget http://freesasa.github.io/freesasa-2.0.2.tar.gz
 tar -xzf freesasa-2.0.2.tar.gz
