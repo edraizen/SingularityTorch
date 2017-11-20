@@ -30,8 +30,6 @@ curl -LO "https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh"
 bash ./Anaconda2-5.0.1-Linux-x86_64.sh -b -p /anaconda
 /anaconda/bin/conda install pytorch torchvision cuda80 -c soumith
 
-export PYTHONPATH=/usr/share/pdb2pqr:/anaconda/lib/python2.7:/usr/lib/python2.7/dist-packages:$PYTHONPATH
-
 wget ftp://ftp.cmbi.ru.nl/pub/software/dssp/dssp-2.0.4-linux-i386 -O /usr/local/bin/dssp
 chmod a+x /usr/local/bin/dssp
 
