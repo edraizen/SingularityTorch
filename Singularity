@@ -51,7 +51,7 @@ rm /usr/local/bin/CX.c
 #/anaconda/bin/conda install mayavi
 /anaconda/bin/conda install cython
 /anaconda/bin/conda install Biopython
-/anaconda/bin/conda install pdb2pqr
+/anaconda/bin/conda install -c electrostatics pdb2pqr
 
 #FreeSASA can only install to defualt python, so get a copy of cython
 pip install cython
