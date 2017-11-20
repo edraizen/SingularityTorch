@@ -30,7 +30,7 @@ locale-gen en_US.UTF-8
 apt-get clean
 
 curl -LO https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh
-chmot +x ./Anaconda2-5.0.1-Linux-x86_64.sh
+chmod +x ./Anaconda2-5.0.1-Linux-x86_64.sh
 bash ./Anaconda2-5.0.1-Linux-x86_64.sh -b -p /anaconda
 rm ./Anaconda2-5.0.1-Linux-x86_64.sh
 /anaconda/bin/conda install pytorch torchvision magma-cuda80 -c soumith
