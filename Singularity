@@ -10,7 +10,7 @@ MAINTAINER Wolfgang Resch, Eli Driazen
 %environment
 ################################################################################
 export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/cuda/bin:$PATH
-export PYTHONPATH=/usr/share/pdb2pqr:/anaconda/lib/python2.7:/usr/lib/python2.7/dist-packages:$PYTHONPATH
+export PYTHONPATH=/usr/share/pdb2pqr:$PYTHONPATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 export CUDA_HOME=/usr/local/cuda
 
