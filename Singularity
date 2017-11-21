@@ -33,7 +33,8 @@ curl -LO https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh
 chmod +x ./Anaconda2-5.0.1-Linux-x86_64.sh
 bash ./Anaconda2-5.0.1-Linux-x86_64.sh -b -p /anaconda
 rm ./Anaconda2-5.0.1-Linux-x86_64.sh
-/anaconda/bin/pip install -U numpy 
+/anaconda/bin/conda remove --force numpy
+/anaconda/bin/conda install numpy 
 /anaconda/bin/conda install pytorch torchvision magma-cuda80 -c soumith
 
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
