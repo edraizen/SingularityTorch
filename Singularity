@@ -52,14 +52,16 @@ rm /usr/local/bin/CX.c
 #/anaconda/bin/conda install mayavi
 /anaconda/bin/conda install cython
 /anaconda/bin/conda install Biopython
+/anaconda/bin/conda install -c anaconda flask
 #/anaconda/bin/conda install -c electrostatics pdb2pqr
 
 #FreeSASA can only install to defualt python, so get a copy of cython
-pip install cython
+#pip install cython
+source activate /anaconda/bin/activate
 wget http://freesasa.github.io/freesasa-2.0.2.tar.gz
 tar -xzf freesasa-2.0.2.tar.gz
 cd freesasa-2.0.2
-./configure CFLAGS=-fPIC --enable-python-bindings --disable-json --disable-xml
+./configure CFLAGS="-fPIC -O2" --enable-python-bindings --disable-json --disable-xml --prefix=`pwd`
 make && make install
 
 export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/cuda/bin:$PATH
@@ -75,6 +77,7 @@ cd SparseConvNet/PyTorch/
 git -c http.sslVerify=false clone http://github.com/pytorch/tnt.git
 cd tnt
 /anaconda/bin/python setup.py develop
+
 
 ###
 ### destination for NIH HPC bind mounts
