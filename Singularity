@@ -56,8 +56,8 @@ rm /usr/local/bin/CX.c
 #/anaconda/bin/conda install -c electrostatics pdb2pqr
 
 #FreeSASA can only install to defualt python, so get a copy of cython
-#pip install cython
-/anaconda/bin/activate
+pip install cython
+#/anaconda/bin/activate
 wget http://freesasa.github.io/freesasa-2.0.2.tar.gz
 tar -xzf freesasa-2.0.2.tar.gz
 cd freesasa-2.0.2
