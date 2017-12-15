@@ -55,18 +55,18 @@ rm /usr/local/bin/CX.c
 /anaconda/bin/conda install -c anaconda flask
 #/anaconda/bin/conda install -c electrostatics pdb2pqr
 
+export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/cuda/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
+export CUDA_HOME=/usr/local/cuda
+
 #FreeSASA can only install to defualt python, so get a copy of cython
-pip install cython
+#pip install cython
 #/anaconda/bin/activate
 wget http://freesasa.github.io/freesasa-2.0.2.tar.gz
 tar -xzf freesasa-2.0.2.tar.gz
 cd freesasa-2.0.2
 ./configure CFLAGS="-fPIC -O2" --enable-python-bindings --disable-json --disable-xml --prefix=`pwd`
 make && make install
-
-export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/cuda/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-export CUDA_HOME=/usr/local/cuda
 
 cd /
 apt-get install libsparsehash-dev
