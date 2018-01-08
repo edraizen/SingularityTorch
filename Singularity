@@ -52,7 +52,6 @@ rm /usr/local/bin/CX.c
 #/anaconda/bin/conda install mayavi
 /anaconda/bin/conda install cython
 /anaconda/bin/conda install Biopython
-/anaconda/bin/conda install prody
 /anaconda/bin/conda install -c anaconda flask
 #/anaconda/bin/conda install -c electrostatics pdb2pqr
 
@@ -79,6 +78,7 @@ git -c http.sslVerify=false clone http://github.com/pytorch/tnt.git
 cd tnt
 /anaconda/bin/python setup.py develop
 
+pip install -U ProDy
 
 ###
 ### destination for NIH HPC bind mounts
