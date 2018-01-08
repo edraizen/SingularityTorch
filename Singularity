@@ -52,6 +52,7 @@ rm /usr/local/bin/CX.c
 #/anaconda/bin/conda install mayavi
 /anaconda/bin/conda install cython
 /anaconda/bin/conda install Biopython
+/anaconda/bin/conda install prody
 /anaconda/bin/conda install -c anaconda flask
 #/anaconda/bin/conda install -c electrostatics pdb2pqr
 
