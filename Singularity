@@ -53,6 +53,7 @@ rm /usr/local/bin/CX.c
 /anaconda/bin/conda install cython
 /anaconda/bin/conda install Biopython
 /anaconda/bin/conda install numba
+/anaconda/bin/conda install -c openbabel openbabel
 /anaconda/bin/conda install -c anaconda flask
 #/anaconda/bin/conda install -c electrostatics pdb2pqr
 
