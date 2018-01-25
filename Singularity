@@ -70,15 +70,6 @@ cd freesasa-2.0.2
 make && make install
 
 cd /
-wget https://sourceforge.net/projects/openbabel/files/openbabel/2.4.1/openbabel-2.4.1.tar.gz
-tar -xzf openbabel-2.4.1.tar.gz
-mkdir openbabel_build
-cd openbabel_build
-cmake ../openbabel-2.4.1 -DPYTHON_BINDINGS=ON
-make
-make install
-
-cd /
 apt-get install libsparsehash-dev
 git -c http.sslVerify=false clone http://github.com/edraizen/SparseConvNet.git
 cd SparseConvNet/PyTorch/
@@ -89,6 +80,7 @@ cd tnt
 /anaconda/bin/python setup.py develop
 
 pip install -U ProDy
+pip install openbabel
 
 ###
 ### destination for NIH HPC bind mounts
