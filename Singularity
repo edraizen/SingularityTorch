@@ -56,7 +56,7 @@ rm /usr/local/bin/CX.c
 /anaconda/bin/conda install -c anaconda flask
 #/anaconda/bin/conda install -c electrostatics pdb2pqr
 
-export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/cuda/bin:$PATH
+export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/lib:/usr/local/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 export CUDA_HOME=/usr/local/cuda
 
@@ -68,6 +68,15 @@ tar -xzf freesasa-2.0.2.tar.gz
 cd freesasa-2.0.2
 ./configure CFLAGS="-fPIC -O2" --enable-python-bindings --disable-json --disable-xml --prefix=`pwd`
 make && make install
+
+cd /
+wget https://sourceforge.net/projects/openbabel/files/openbabel/2.4.1/openbabel-2.4.1.tar.gz
+tar -xzf openbabel-2.4.1.tar.gz
+mkdir openbabel_build
+cd openbabel_build
+cmake ../openbabel-2.4.1 -DPYTHON_BINDINGS=ON
+make
+make install
 
 cd /
 apt-get install libsparsehash-dev
