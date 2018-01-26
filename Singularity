@@ -82,7 +82,6 @@ cd tnt
 /anaconda/bin/python setup.py develop
 
 pip install -U ProDy
-pip install openbabel
 
 ###
 ### destination for NIH HPC bind mounts
