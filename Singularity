@@ -9,7 +9,7 @@ MAINTAINER Wolfgang Resch, Eli Driazen
 ################################################################################
 %environment
 ################################################################################
-export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/cuda/bin:$PATH
+export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/cuda/bin:/usr/share/pdb2pqr:$PATH
 export PYTHONPATH=/usr/share/pdb2pqr:$PYTHONPATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 export CUDA_HOME=/usr/local/cuda
@@ -53,6 +53,7 @@ rm /usr/local/bin/CX.c
 /anaconda/bin/conda install cython
 /anaconda/bin/conda install Biopython
 /anaconda/bin/conda install numba
+/anaconda/bin/conda install seaborn
 /anaconda/bin/conda install cmake lxml swig
 /anaconda/bin/conda install -c openbabel openbabel
 /anaconda/bin/conda install -c anaconda flask
@@ -82,6 +83,7 @@ cd tnt
 /anaconda/bin/python setup.py develop
 
 pip install -U ProDy
+install git+https://github.com/szagoruyko/pytorchviz 
 
 ###
 ### destination for NIH HPC bind mounts
