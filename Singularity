@@ -83,7 +83,7 @@ cd tnt
 /anaconda/bin/python setup.py develop
 
 pip install -U ProDy
-install git+https://github.com/szagoruyko/pytorchviz 
+pip install git+https://github.com/szagoruyko/pytorchviz 
 
 ###
 ### destination for NIH HPC bind mounts
