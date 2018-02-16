@@ -83,7 +83,10 @@ cd tnt
 /anaconda/bin/python setup.py develop
 
 pip install -U ProDy
-pip install git+https://github.com/szagoruyko/pytorchviz 
+pip install git+https://github.com/szagoruyko/pytorchviz
+pip install tqdm
+
+/anaconda/bin/python -c "import visdom.server as vs; vs.download_scripts()" 
 
 ###
 ### destination for NIH HPC bind mounts
