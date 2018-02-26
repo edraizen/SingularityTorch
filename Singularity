@@ -88,6 +88,8 @@ pip install tqdm
 
 /anaconda/bin/python -c "import visdom.server as vs; vs.download_scripts()" 
 
+git clone https://github.com/JoaoRodrigues/pdb-tools
+
 ###
 ### destination for NIH HPC bind mounts
 ###
