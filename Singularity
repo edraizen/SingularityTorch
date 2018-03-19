@@ -29,10 +29,10 @@ apt-get install -y wget libhdf5-dev graphviz locales python python-pip git pdb2p
 locale-gen en_US.UTF-8
 apt-get clean
 
-curl -LO https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh
-chmod +x ./Anaconda2-5.0.1-Linux-x86_64.sh
-bash ./Anaconda2-5.0.1-Linux-x86_64.sh -b -p /anaconda
-rm ./Anaconda2-5.0.1-Linux-x86_64.sh
+curl -LO https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
+chmod +x ./Anaconda3-5.0.1-Linux-x86_64.sh
+bash ./Anaconda3-5.0.1-Linux-x86_64.sh -b -p /anaconda
+rm ./Anaconda3-5.0.1-Linux-x86_64.sh
 /anaconda/bin/conda remove --force numpy
 /anaconda/bin/conda install numpy 
 /anaconda/bin/conda install pytorch torchvision magma-cuda80 -c soumith
@@ -63,9 +63,6 @@ export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/loc
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 export CUDA_HOME=/usr/local/cuda
 
-#FreeSASA can only install to defualt python, so get a copy of cython
-#pip install cython
-#/anaconda/bin/activate
 wget http://freesasa.github.io/freesasa-2.0.2.tar.gz
 tar -xzf freesasa-2.0.2.tar.gz
 cd freesasa-2.0.2
@@ -82,11 +79,10 @@ git -c http.sslVerify=false clone http://github.com/pytorch/tnt.git
 cd tnt
 /anaconda/bin/python setup.py develop
 
-pip install -U ProDy
-pip install git+https://github.com/szagoruyko/pytorchviz
-pip install tqdm
+pip3 install git+https://github.com/szagoruyko/pytorchviz
+pip3 install tqdm
 
-/anaconda/bin/python -c "import visdom.server as vs; vs.download_scripts()" 
+/anaconda/bin/python3 -c "import visdom.server as vs; vs.download_scripts()" 
 
 git clone https://github.com/JoaoRodrigues/pdb-tools
 
