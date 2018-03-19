@@ -35,7 +35,16 @@ bash ./Anaconda3-5.0.1-Linux-x86_64.sh -b -p /anaconda
 rm ./Anaconda3-5.0.1-Linux-x86_64.sh
 /anaconda/bin/conda remove --force numpy
 /anaconda/bin/conda install numpy 
-/anaconda/bin/conda install pytorch torchvision magma-cuda80 -c soumith
+
+export CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" # [anaconda root directory]
+
+# Install basic dependencies
+/anaconda/bin/conda install numpy pyyaml mkl setuptools cmake cffi typing
+
+# Add LAPACK support for the GPU
+/anaconda/bin/conda install -c pytorch magma-cuda80
+
+/anaconda/bin/conda install torchvision
 
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 export CUDA_HOME=/usr/local/cuda
