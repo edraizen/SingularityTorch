@@ -79,8 +79,8 @@ git -c http.sslVerify=false clone http://github.com/pytorch/tnt.git
 cd tnt
 /anaconda/bin/python setup.py develop
 
-/anaconda/bin/pip3 install git+https://github.com/szagoruyko/pytorchviz
-/anaconda/bin/pip3 install tqdm
+/anaconda/bin/pip install git+https://github.com/szagoruyko/pytorchviz
+/anaconda/bin/pip install tqdm
 
 /anaconda/bin/python3 -c "import visdom.server as vs; vs.download_scripts()" 
 
