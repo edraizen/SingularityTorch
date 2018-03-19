@@ -44,6 +44,10 @@ export CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" # [anaconda root direct
 # Add LAPACK support for the GPU
 /anaconda/bin/conda install -c pytorch magma-cuda80
 
+git clone --recursive https://github.com/pytorch/pytorch
+cd pytorch
+/anaconda/bin/python setup.py install
+
 /anaconda/bin/conda install torchvision
 
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
