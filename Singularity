@@ -39,7 +39,7 @@ rm ./Anaconda3-5.0.1-Linux-x86_64.sh
 export CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" # [anaconda root directory]
 
 # Install basic dependencies
-/anaconda/bin/conda install numpy pyyaml mkl setuptools cmake cffi typing
+/anaconda/bin/conda install numpy pyyaml mkl mkl-include setuptools cmake cffi typing
 
 # Add LAPACK support for the GPU
 /anaconda/bin/conda install -c pytorch magma-cuda80
