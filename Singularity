@@ -21,7 +21,7 @@ export CUDA_HOME=/usr/local/cuda
 echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
 apt-get update
-apt-get install -y wget libhdf5-dev graphviz locales python python-pip git pdb2pqr xvfb curl ca-certificates \
+apt-get install -y wget libhdf5-dev graphviz locales python3-dev python3-pip git pdb2pqr xvfb curl ca-certificates \
          libnccl2=2.0.5-2+cuda8.0 \
          libnccl-dev=2.0.5-2+cuda8.0 \
          libjpeg-dev \
@@ -29,16 +29,30 @@ apt-get install -y wget libhdf5-dev graphviz locales python python-pip git pdb2p
 locale-gen en_US.UTF-8
 apt-get clean
 
-curl -LO https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh
-chmod +x ./Anaconda2-5.0.1-Linux-x86_64.sh
-bash ./Anaconda2-5.0.1-Linux-x86_64.sh -b -p /anaconda
-rm ./Anaconda2-5.0.1-Linux-x86_64.sh
+curl -LO https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
+chmod +x ./Anaconda3-5.0.1-Linux-x86_64.sh
+bash ./Anaconda3-5.0.1-Linux-x86_64.sh -b -p /anaconda
+rm ./Anaconda3-5.0.1-Linux-x86_64.sh
 /anaconda/bin/conda remove --force numpy
 /anaconda/bin/conda install numpy 
-/anaconda/bin/conda install pytorch torchvision magma-cuda80 -c soumith
 
+export CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" # [anaconda root directory]
+
+# Install basic dependencies
+/anaconda/bin/conda install numpy pyyaml mkl mkl-include setuptools cmake cffi typing
+
+# Add LAPACK support for the GPU
+/anaconda/bin/conda install -c pytorch magma-cuda80
+
+export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/lib:/usr/local/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 export CUDA_HOME=/usr/local/cuda
+
+git clone --recursive https://github.com/pytorch/pytorch
+cd pytorch
+/anaconda/bin/python setup.py install
+
+/anaconda/bin/conda install torchvision
 
 wget ftp://ftp.cmbi.ru.nl/pub/software/dssp/dssp-2.0.4-linux-i386 -O /usr/local/bin/dssp
 chmod a+x /usr/local/bin/dssp
@@ -59,13 +73,6 @@ rm /usr/local/bin/CX.c
 /anaconda/bin/conda install -c anaconda flask
 #/anaconda/bin/conda install -c electrostatics pdb2pqr
 
-export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/lib:/usr/local/cuda/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-export CUDA_HOME=/usr/local/cuda
-
-#FreeSASA can only install to defualt python, so get a copy of cython
-#pip install cython
-#/anaconda/bin/activate
 wget http://freesasa.github.io/freesasa-2.0.2.tar.gz
 tar -xzf freesasa-2.0.2.tar.gz
 cd freesasa-2.0.2
@@ -82,11 +89,10 @@ git -c http.sslVerify=false clone http://github.com/pytorch/tnt.git
 cd tnt
 /anaconda/bin/python setup.py develop
 
-pip install -U ProDy
-pip install git+https://github.com/szagoruyko/pytorchviz
-pip install tqdm
+/anaconda/bin/pip install git+https://github.com/szagoruyko/pytorchviz
+/anaconda/bin/pip install tqdm
 
-/anaconda/bin/python -c "import visdom.server as vs; vs.download_scripts()" 
+/anaconda/bin/python3 -c "import visdom.server as vs; vs.download_scripts()" 
 
 git clone https://github.com/JoaoRodrigues/pdb-tools
 
