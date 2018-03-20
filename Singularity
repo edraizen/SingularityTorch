@@ -54,9 +54,6 @@ cd pytorch
 
 /anaconda/bin/conda install torchvision
 
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-export CUDA_HOME=/usr/local/cuda
-
 wget ftp://ftp.cmbi.ru.nl/pub/software/dssp/dssp-2.0.4-linux-i386 -O /usr/local/bin/dssp
 chmod a+x /usr/local/bin/dssp
 
