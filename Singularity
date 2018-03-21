@@ -50,7 +50,7 @@ export CUDA_HOME=/usr/local/cuda
 
 git clone --recursive https://github.com/pytorch/pytorch
 cd pytorch
-/anaconda/bin/python setup.py install
+NUM_JOBS=4 /anaconda/bin/python setup.py install
 
 /anaconda/bin/conda install torchvision
 
