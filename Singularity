@@ -21,7 +21,7 @@ export CUDA_HOME=/usr/local/cuda
 echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
 apt-get update
-apt-get install -y wget libhdf5-dev graphviz locales python3-dev python3-pip git pdb2pqr xvfb curl ca-certificates \
+apt-get install -y wget libhdf5-dev graphviz locales python3-dev python3-pip git pdb2pqr apbs xvfb curl ca-certificates \
          libnccl2=2.0.5-2+cuda8.0 \
          libnccl-dev=2.0.5-2+cuda8.0 \
          libjpeg-dev \
@@ -48,9 +48,11 @@ export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/loc
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 export CUDA_HOME=/usr/local/cuda
 
-git clone --recursive https://github.com/pytorch/pytorch
-cd pytorch
-NUM_JOBS=4 /anaconda/bin/python setup.py install
+conda install pytorch torchvision -c pytorch
+
+#git clone --recursive https://github.com/pytorch/pytorch
+#cd pytorch
+#NUM_JOBS=4 /anaconda/bin/python setup.py install
 
 /anaconda/bin/conda install torchvision
 
