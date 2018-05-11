@@ -21,7 +21,7 @@ export CUDA_HOME=/usr/local/cuda
 echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
 apt-get update
-apt-get install -y wget libhdf5-dev graphviz locales python3-dev python3-pip git pdb2pqr apbs xvfb curl ca-certificates \
+apt-get install -y wget libhdf5-dev graphviz locales python python-pip git pdb2pqr apbs xvfb curl ca-certificates \
          libnccl2=2.0.5-2+cuda8.0 \
          libnccl-dev=2.0.5-2+cuda8.0 \
          libjpeg-dev \
@@ -29,10 +29,10 @@ apt-get install -y wget libhdf5-dev graphviz locales python3-dev python3-pip git
 locale-gen en_US.UTF-8
 apt-get clean
 
-curl -LO https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
-chmod +x ./Anaconda3-5.0.1-Linux-x86_64.sh
-bash ./Anaconda3-5.0.1-Linux-x86_64.sh -b -p /anaconda
-rm ./Anaconda3-5.0.1-Linux-x86_64.sh
+curl -LO https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh
+chmod +x ./Anaconda2-5.0.1-Linux-x86_64.sh
+bash ./Anaconda2-5.0.1-Linux-x86_64.sh -b -p /anaconda
+rm ./Anaconda2-5.0.1-Linux-x86_64.sh
 /anaconda/bin/conda remove --force numpy
 /anaconda/bin/conda install numpy 
 
