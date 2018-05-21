@@ -78,8 +78,9 @@ rm /usr/local/bin/CX.c
 wget http://freesasa.github.io/freesasa-2.0.3.tar.gz
 tar -xzf freesasa-2.0.3.tar.gz
 cd freesasa-2.0.3
-./configure CFLAGS="-fPIC -O2" --enable-python-bindings --disable-json --disable-xml --prefix=`pwd`
+./configure CFLAGS="-fPIC -O2" --disable-json --disable-xml --prefix=`pwd`
 make && make install
+pip install freesasa
 
 cd /
 apt-get install libsparsehash-dev
