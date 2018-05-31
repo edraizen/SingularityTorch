@@ -74,6 +74,7 @@ rm /usr/local/bin/CX.c
 /anaconda/bin/conda install -c openbabel openbabel
 /anaconda/bin/conda install -c anaconda flask
 #/anaconda/bin/conda install -c electrostatics pdb2pqr
+/anaconda/bin/conda install pyasn1
 
 wget http://freesasa.github.io/freesasa-2.0.3.tar.gz
 tar -xzf freesasa-2.0.3.tar.gz
