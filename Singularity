@@ -73,7 +73,6 @@ rm /usr/local/bin/CX.c
 /anaconda/bin/conda install cmake lxml swig
 /anaconda/bin/conda install -c openbabel openbabel
 /anaconda/bin/conda install -c anaconda flask
-#/anaconda/bin/conda install -c electrostatics pdb2pqr
 /anaconda/bin/conda install pyasn1
 /anaconda/bin/conda install pytables
 
@@ -97,11 +96,9 @@ cd tnt
 /anaconda/bin/pip install git+https://github.com/szagoruyko/pytorchviz
 /anaconda/bin/pip install tqdm
 
-#/anaconda/bin/python -c "import visdom.server as vs; vs.download_scripts()" 
-
 git clone https://github.com/JoaoRodrigues/pdb-tools
 
 ###
-### destination for NIH HPC bind mounts
+### destination for UVA Rivanna bind mounts
 ###
-mkdir /gpfs /spin1 /gs2 /gs3 /gs4 /gs5 /gs6 /gs7 /gs8 /data /scratch /fdb /lscratch /pdb
+mkdir /project
