@@ -1,11 +1,8 @@
 #! /bin/bash
 
-# Author: Wolfgang Resch (staff@helix.nih.gov)
-
 set -e
 
-keras_img="PATH_TO_SIMG.simg"
-keras_backend="tensorflow"
+singularity_img="/project/ppi-workspace/molmimic/edraizen-SingularityTorch-master-latest.simg"
 cmd="help"
 
 while true; do
@@ -28,33 +25,40 @@ while true; do
         shell)
             cmd="shell"
             shift
-            break 
+            break
+            ;;
+        flask)
+            cmd="flask"
+            shift
+            break
             ;;
         *)
-            usage
             exit 1
             ;;
     esac
 done
 
-export SINGULARITY_BINDPATH="/gs3,/gs4,/gs5,/gs6,/gs7,/gs8,/gs11,/gpfs,/spin1,/data,/pdb,/scratch,/fdb,/lscratch"
-export KERAS_BACKEND="$keras_backend"
-export HOSTNAME="cn4216"
+export SINGULARITY_BINDPATH="/project"
+export PYTHONPATH="/project/ppi-workspace/molmimic:$PYTHONPATH"
 
 module load singularity > /dev/null 2>&1
 
 case "$cmd" in
     ipython)
-        singularity exec --nv "${keras_img}" ipython "$@"
+        singularity exec --nv "${singularity_img}" ipython "$@"
         ;;
     python)
-        singularity exec --nv "${keras_img}" /anaconda/bin/python "$@"
+        singularity exec --nv "${singularity_img}" /anaconda/bin/python "$@"
         ;;
     notebook)
-        singularity exec --nv "${keras_img}" jupyter notebook "$@" 
+        singularity exec --nv "${singularity_img}" jupyter notebook "$@"
         ;;
     shell)
-        singularity shell "${keras_img}" "$@"
+        singularity shell "${singularity_img}" "$@"
+        ;;
+    flask)
+        export FLASK_APP=/project/ppi-workspace/molmimic/protein_viewer/protein_viewer.py
+        singularity exec --nv "${singularity_img}" /anaconda/bin/flask run
         ;;
     help)
         usage
