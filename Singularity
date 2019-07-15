@@ -76,7 +76,7 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     pip install keras
 
     # install pytorch (with Caffe2)
-    conda install pytorch torchvision cudatoolkit=10.0 -c pytorch # See https://pytorch.org/get-started/locally/
+    conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
     conda install google-sparsehash -c bioconda
     conda install -c anaconda pillow
     git clone git@github.com:facebookresearch/SparseConvNet.git
