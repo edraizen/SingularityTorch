@@ -1,107 +1,137 @@
 BootStrap: docker
-From: nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
+From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
 
-################################################################################
-%labels
-################################################################################
-MAINTAINER Wolfgang Resch, Eli Driazen
 
-################################################################################
-%environment
-################################################################################
-export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/cuda/bin:/usr/share/pdb2pqr:/freesasa-2.0.3/bin:$PATH
-export PYTHONPATH=/usr/share/pdb2pqr:$PYTHONPATH
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-export CUDA_HOME=/usr/local/cuda
-
-################################################################################
 %post
-################################################################################
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# this will install all necessary packages and prepare the container
+    CUDNN_VERSION=7.0.5.15
+    apt-get -y update --fix-missing
 
-echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
+    # install cuDNN version 7.0.5 required for keras
+    # apt-get install -y --no-install-recommends \
+    #    libcudnn7=$CUDNN_VERSION-1+cuda9.0 \
+    #    libcudnn7-dev=$CUDNN_VERSION-1+cuda9.0 && \
+    #rm -rf /var/lib/apt/lists/*
+    #apt-get -y update
 
-apt-get update
-apt-get install -y wget libhdf5-dev graphviz locales python python-pip git pdb2pqr apbs xvfb curl ca-certificates \
-         libnccl2=2.0.5-2+cuda8.0 \
-         libnccl-dev=2.0.5-2+cuda8.0 \
-         libjpeg-dev \
-         libpng-dev
-locale-gen en_US.UTF-8
-apt-get clean
+    # install other dependencies
+    apt-get -y install --allow-downgrades --no-install-recommends \
+        build-essential \
+        dbus \
+        wget \
+        git \
+        mercurial \
+        subversion \
+        vim \
+        nano \
+        cmake \
+        bzip2 \
+        ca-certificates \
+        libglib2.0-0 \
+        libxext6 \
+        libsm6 \
+        libxrender1 \
+        libboost-all-dev
 
-curl -LO https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh
-chmod +x ./Anaconda2-5.0.1-Linux-x86_64.sh
-bash ./Anaconda2-5.0.1-Linux-x86_64.sh -b -p /anaconda
-rm ./Anaconda2-5.0.1-Linux-x86_64.sh
-/anaconda/bin/conda remove --force numpy
-/anaconda/bin/conda install numpy 
+#    locale-gen en_US
+#    locale-gen en_US.UTF-8
+#    locale update
 
-export CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" # [anaconda root directory]
+#    system-machine-id-setup
+    rm /etc/machine-id
+    dbus-uuidgen --ensure=/etc/machine-id
 
-# Install basic dependencies
-/anaconda/bin/conda install numpy pyyaml mkl mkl-include setuptools cmake cffi typing
+    export CUDA_HOME="/usr/local/cuda"
+    export CPATH="$CUDA_HOME/include:$CPATH"
+    export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
+    export PATH="$CUDA_HOME/bin:$PATH"
+    export PATH="/opt/conda/bin:$PATH"
 
-# Add LAPACK support for the GPU
-/anaconda/bin/conda install -c pytorch magma-cuda80
+    # required for LightGBM
+    mkdir -p /etc/OpenCL/vendors && \
+    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
-export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/lib:/usr/local/cuda/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-export CUDA_HOME=/usr/local/cuda
+    export BOOST_ROOT=/usr/local/boost
 
-conda install pytorch torchvision -c pytorch
+    wget --quiet https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh -O ~/anaconda.sh
+    /bin/bash ~/anaconda.sh -b -p /opt/conda
+    rm ~/anaconda.sh
 
-#git clone --recursive https://github.com/pytorch/pytorch
-#cd pytorch
-#NUM_JOBS=4 /anaconda/bin/python setup.py install
+    conda update conda
+    conda install \
+        spyder==3.2.6 \
+        qtconsole==4.3.1 \
+        qtpy==1.3.1
+    pip install --upgrade pip
+    pip install future
 
-/anaconda/bin/conda install torchvision
+    # install tensorflow with gpu support
+    pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.6.0-cp36-cp36m-linux_x86_64.whl
 
-wget ftp://ftp.cmbi.ru.nl/pub/software/dssp/dssp-2.0.4-linux-i386 -O /usr/local/bin/dssp
-chmod a+x /usr/local/bin/dssp
+    # install tflearn
+    pip install tflearn
 
-wget ftp://ftp.icgeb.trieste.it/pub/CX/CX.c.gz -O /usr/local/bin/CX.c.gz
-gunzip /usr/local/bin/CX.c.gz
-gcc -o /usr/local/bin/cx /usr/local/bin/CX.c -lm
-rm /usr/local/bin/CX.c
+    # install keras
+    pip install keras
 
-/anaconda/bin/conda install scikit-learn 
-#/anaconda/bin/conda install mayavi
-/anaconda/bin/conda install cython
-/anaconda/bin/conda install Biopython
-/anaconda/bin/conda install numba
-/anaconda/bin/conda install seaborn
-/anaconda/bin/conda install cmake lxml swig
-/anaconda/bin/conda install -c openbabel openbabel
-/anaconda/bin/conda install -c anaconda flask
-#/anaconda/bin/conda install -c electrostatics pdb2pqr
-/anaconda/bin/conda install pyasn1
-/anaconda/bin/conda install pytables
+    # install pytorch (with Caffe2)
+    conda install pytorch torchvision cudatoolkit=10.0 -c pytorch # See https://pytorch.org/get-started/locally/
+    conda install google-sparsehash -c bioconda
+    conda install -c anaconda pillow
+    git clone git@github.com:facebookresearch/SparseConvNet.git
+    cd SparseConvNet/
+    sed -i 's/torch.cuda.is_available()/True/g' setup.py
+    bash develop.sh
 
-wget http://freesasa.github.io/freesasa-2.0.3.tar.gz
-tar -xzf freesasa-2.0.3.tar.gz
-cd freesasa-2.0.3
-./configure CFLAGS="-fPIC -O2" --disable-json --disable-xml --prefix=`pwd`
-make && make install
-pip install freesasa
+    conda install numpy pandas torchnet matplotlib
+    pip install scikit-learn Biopython seaborn tqdm dask joblib torchnet fastparquet pyarrow
+    pip install dask[dataframe]
 
-cd /
-apt-get install libsparsehash-dev
-git -c http.sslVerify=false clone http://github.com/edraizen/SparseConvNet.git
-cd SparseConvNet/PyTorch/
-/anaconda/bin/python setup.py develop
+    # install OpenCV
+    pip install opencv-python
 
-git -c http.sslVerify=false clone http://github.com/pytorch/tnt.git
-cd tnt
-/anaconda/bin/python setup.py develop
+    conda clean --index-cache --tarballs --packages --yes
 
-/anaconda/bin/pip install git+https://github.com/szagoruyko/pytorchviz
-/anaconda/bin/pip install tqdm
+%runscript
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# this text code will run whenever the container
+# is called as an executable or with `singularity run`
+exec python $@
 
-#/anaconda/bin/python -c "import visdom.server as vs; vs.download_scripts()" 
+%help
+This container is backed by Anaconda version 4.4.0 and provides the Python 3.6 bindings for:
+    * Tensorflow 1.6.0
+    * Keras 2.1.5
+    * PyTorch 1.0
+    * Caffe2
+    * XGBoost
+    * LightGBM
+    * OpenCV
+    * CUDA 9.0
+    * CuDNN 7.0.5.15
 
-git clone https://github.com/JoaoRodrigues/pdb-tools
 
-###
-### destination for NIH HPC bind mounts
-###
-mkdir /gpfs /spin1 /gs2 /gs3 /gs4 /gs5 /gs6 /gs7 /gs8 /data /scratch /fdb /lscratch /pdb
+%environment
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# This sets global environment variables for anything run within the container
+    export CUDA_HOME="/usr/local/cuda"
+    export CPATH="$CUDA_HOME/include:$CPATH"
+    export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
+    export PATH="$CUDA_HOME/bin:$PATH"
+
+    export PATH="/opt/conda/bin:$PATH"
+    unset CONDA_DEFAULT_ENV
+    export ANACONDA_HOME=/opt/conda
+
+    XGBOOSTROOT=/opt/xgboost
+    export CPATH="$XGBOOSTROOT/include:$CPATH"
+    export LD_LIBRARY_PATH="$XGBOOSTROOT/lib:$LD_LIBRARY_PATH"
+    export PATH="$XGBOOSTROOT:$PATH"
+    export PYTHONPATH=$XGBOOSTROOT/python-package:$PYTHONPATH
+
+    LIGHTGBMROOT=/opt/LightGBM
+    export CPATH="$LIGHTGBMROOT/include:$CPATH"
+    export LD_LIBRARY_PATH="$LIGHTGBMROOT:$LD_LIBRARY_PATH"
+    export PATH="$LIGHTGBMROOT:$PATH"
+    export PYTHONPATH=$LIGHTGBMROOT/python-package:$PYTHONPATH
