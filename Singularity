@@ -5,15 +5,29 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
 %post
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # this will install all necessary packages and prepare the container
-    CUDNN_VERSION=7.0.5.15
-    apt-get -y update --fix-missing
+    #CUDNN_VERSION=7.0.5.15
+    #nvcc --version
+    #ls -la /usr/local/cuda-10.0
+#
+    #apt-get -y update --fix-missing
+#
+    #apt-get -y install software-properties-common
+    #apt-get -y update
+#
+    #apt purge nvidia-*
+    #add-apt-repository ppa:graphics-drivers/ppa
+    #apt-get -y update
+    #apt-get -y install nvidia-driver-396
+#
+    #nvidia-smi
+#
 
     # install cuDNN version 7.0.5 required for keras
     # apt-get install -y --no-install-recommends \
     #    libcudnn7=$CUDNN_VERSION-1+cuda9.0 \
     #    libcudnn7-dev=$CUDNN_VERSION-1+cuda9.0 && \
     #rm -rf /var/lib/apt/lists/*
-    #apt-get -y update
+    apt-get -y update
 
     # install other dependencies
     apt-get -y install --allow-downgrades --no-install-recommends \
@@ -34,10 +48,9 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
         libxrender1 \
         libboost-all-dev
 
-#    locale-gen en_US
-#    locale-gen en_US.UTF-8
+    #locale-gen en_US
+    #locale-gen en_US.UTF-8
 #    locale update
-
 #    system-machine-id-setup
     rm /etc/machine-id
     dbus-uuidgen --ensure=/etc/machine-id
@@ -48,7 +61,7 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     export PATH="$CUDA_HOME/bin:$PATH"
     export PATH="/opt/conda/bin:$PATH"
 
-    # required for LightGBM
+    #required for LightGBM
     mkdir -p /etc/OpenCL/vendors && \
     echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
@@ -59,30 +72,37 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     rm ~/anaconda.sh
 
     conda update conda
-    conda install \
-        spyder==3.2.6 \
-        qtconsole==4.3.1 \
-        qtpy==1.3.1
+    #conda install \
+    #    spyder==3.2.6 \
+    #    qtconsole==4.3.1 \
+    #    qtpy==1.3.1
     pip install --upgrade pip
     pip install future
 
     # install tensorflow with gpu support
-    pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.6.0-cp36-cp36m-linux_x86_64.whl
+    # pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.6.0-cp36-cp36m-linux_x86_64.whl
 
     # install tflearn
-    pip install tflearn
+    # pip install tflearn
 
     # install keras
-    pip install keras
+    # pip install keras
 
-    # install pytorch (with Caffe2)
-    conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
+    # install pytorch
+    conda install \
+      pytorch \
+      torchvision \
+      cudatoolkit=10.0 -c pytorch
     conda install google-sparsehash -c bioconda
     conda install -c anaconda pillow
-    git clone git@github.com:facebookresearch/SparseConvNet.git
+    git clone https://github.com/facebookresearch/SparseConvNet.git
     cd SparseConvNet/
+    sed -i 's/assert/pass #/g' setup.py
     sed -i 's/torch.cuda.is_available()/True/g' setup.py
-    bash develop.sh
+    echo $CUDA_HOME
+    #bash develop.sh
+    rm -rf build/ dist/ sparseconvnet.egg-info sparseconvnet_SCN*.so
+    python setup.py develop
 
     conda install numpy pandas torchnet matplotlib
     pip install scikit-learn Biopython seaborn tqdm dask joblib torchnet fastparquet pyarrow
@@ -115,7 +135,7 @@ This container is backed by Anaconda version 4.4.0 and provides the Python 3.6 b
 %environment
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # This sets global environment variables for anything run within the container
-    export CUDA_HOME="/usr/local/cuda"
+    export CUDA_HOME="/usr/local/cuda-10.0"
     export CPATH="$CUDA_HOME/include:$CPATH"
     export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
     export PATH="$CUDA_HOME/bin:$PATH"
