@@ -70,6 +70,8 @@ From: arcsUVA/anaconda:cuda10.0-cudnn7.4-py3.6
         hypothesis \
         pydot \
         opencv-python
+        
+    nvcc --version
     
     #Build with CUDA even if no GPU Present (https://github.com/NVIDIA/nvidia-docker/issues/595)
     echo "{'runtimes':{'nvidia':{'path':'nvidia-container-runtime','runtimeArgs':[]}},'default-runtime':'nvidia'}" > /etc/docker/daemon.json
