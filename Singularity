@@ -101,9 +101,9 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     rm -rf build/ dist/ sparseconvnet.egg-info sparseconvnet_SCN*.so
     python setup.py develop
 
-    # conda install numpy pandas matplotlib
     pip install dask[dataframe]
-    pip install scikit-learn Biopython seaborn tqdm dask joblib torchnet fastparquet pyarrow
+    pip install scikit-learn Biopython seaborn tqdm dask joblib torchnet tables fastparquet pyarrow
+    pip install freesasa boto3 botocore awscli toil
 
     # install OpenCV
     pip install opencv-python
