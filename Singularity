@@ -81,12 +81,12 @@ From: arcsUVA/anaconda:cuda10.0-cudnn7.4-py3.6
     conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
 
     # install SparseConvNet
-    git clone https://github.com/facebookresearch/SparseConvNet.git
-    cd SparseConvNet/
-    sed -i 's/assert/pass #/g' setup.py
-    sed -i 's/torch.cuda.is_available()/True/g' setup.py
-    rm -rf build/ dist/ sparseconvnet.egg-info sparseconvnet_SCN*.so
-    TORCH_CUDA_ARCH_LIST=All python setup.py develop
+    # git clone https://github.com/facebookresearch/SparseConvNet.git
+    #cd SparseConvNet/
+    #sed -i 's/assert/pass #/g' setup.py
+    #sed -i 's/torch.cuda.is_available()/True/g' setup.py
+    #rm -rf build/ dist/ sparseconvnet.egg-info sparseconvnet_SCN*.so
+    #TORCH_CUDA_ARCH_LIST=All python setup.py develop
 
     # install molmimic requirments
     pip install \
