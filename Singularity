@@ -77,6 +77,7 @@ From: arcsUVA/anaconda:cuda10.0-cudnn7.4-py3.6
     # install SparseConvNet
     git clone https://github.com/facebookresearch/SparseConvNet.git
     cd SparseConvNet/
+    sed -i 's/torch.cuda.is_available()/True/g' setup.py
     bash develop.sh
 
     # install molmimic requirments
@@ -91,7 +92,7 @@ From: arcsUVA/anaconda:cuda10.0-cudnn7.4-py3.6
       dask[dataframe] \
       joblib \
       tornado==4.5.1 \
-      toolz >= 0.7.3 \
+      toolz \
       partd >= 0.3.8 \
       cloudpickle >= 0.2.1 \
       tables \
