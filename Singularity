@@ -10,39 +10,13 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     # install cuDNN and accessories
     apt-get install -y --no-install-recommends \
         build-essential \
-        dbus \
-        wget \
-        git \
-        vim \
-        cmake \
-        ca-certificates \
-        libglib2.0-0 \
-        libxext6 \
-        libsm6 \
-        libxrender1 \
-        libboost-all-dev
-        libgoogle-glog-dev \
-        libgtest-dev \
-        libiomp-dev \
-        libleveldb-dev \
-        liblmdb-dev \
-        libopenmpi-dev \
-        libsnappy-dev \
-        libprotobuf-dev \
-        openmpi-bin \
-        openmpi-doc \
-        protobuf-compiler \
-        libgflags-dev
 
     # install other tools and dependencies
     apt-get -y install --allow-downgrades --no-install-recommends \
         dbus \
         wget \
         git \
-        mercurial \
-        subversion \
         vim \
-        nano \
         cmake \
         bzip2 \
         ca-certificates \
@@ -61,7 +35,7 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     export PATH="$CUDA_HOME/bin:$PATH"
 
     export PATH="/opt/conda/bin:$PATH"
-    unset CONDA_DEFAULT_ENV
+    #unset CONDA_DEFAULT_ENV
     export ANACONDA_HOME=/opt/conda
     
     #required for LightGBM
