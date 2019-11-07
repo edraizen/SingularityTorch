@@ -1,107 +1,123 @@
-BootStrap: docker
-From: nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
+BootStrap: shub
+From: arcsUVA/anaconda:cuda10.0-cudnn7.4-py3.6
 
-################################################################################
-%labels
-################################################################################
-MAINTAINER Wolfgang Resch, Eli Driazen
 
-################################################################################
-%environment
-################################################################################
-export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/cuda/bin:/usr/share/pdb2pqr:/freesasa-2.0.3/bin:$PATH
-export PYTHONPATH=/usr/share/pdb2pqr:$PYTHONPATH
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-export CUDA_HOME=/usr/local/cuda
 
-################################################################################
 %post
-################################################################################
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# this will install all necessary packages and prepare the container
+    apt-get -y update --fix-missing
 
-echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
+    # install cuDNN and accessories
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        build-essential \
+        git \
+        libgoogle-glog-dev \
+        libgtest-dev \
+        libiomp-dev \
+        libleveldb-dev \
+        liblmdb-dev \
+        libopenmpi-dev \
+        libsnappy-dev \
+        libprotobuf-dev \
+        openmpi-bin \
+        openmpi-doc \
+        protobuf-compiler \
+        libgflags-dev
 
-apt-get update
-apt-get install -y wget libhdf5-dev graphviz locales python python-pip git pdb2pqr apbs xvfb curl ca-certificates \
-         libnccl2=2.0.5-2+cuda8.0 \
-         libnccl-dev=2.0.5-2+cuda8.0 \
-         libjpeg-dev \
-         libpng-dev
-locale-gen en_US.UTF-8
-apt-get clean
+    # install other tools and dependencies
+    apt-get -y install --allow-downgrades --no-install-recommends \
+        dbus \
+        wget \
+        git \
+        mercurial \
+        subversion \
+        vim \
+        nano \
+        cmake \
+        bzip2 \
+        ca-certificates \
+        libglib2.0-0 \
+        libxext6 \
+        libsm6 \
+        libxrender1 \
+        libboost-all-dev
 
-curl -LO https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh
-chmod +x ./Anaconda2-5.0.1-Linux-x86_64.sh
-bash ./Anaconda2-5.0.1-Linux-x86_64.sh -b -p /anaconda
-rm ./Anaconda2-5.0.1-Linux-x86_64.sh
-/anaconda/bin/conda remove --force numpy
-/anaconda/bin/conda install numpy 
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
 
-export CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" # [anaconda root directory]
+    rm /etc/machine-id
+    dbus-uuidgen --ensure=/etc/machine-id
 
-# Install basic dependencies
-/anaconda/bin/conda install numpy pyyaml mkl mkl-include setuptools cmake cffi typing
+    export CUDA_HOME="/usr/local/cuda"
+    export CPATH="$CUDA_HOME/include:$CPATH"
+    export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64:$LD_LIBRARY_PATH"
+    export PATH="$CUDA_HOME/bin:$PATH"
 
-# Add LAPACK support for the GPU
-/anaconda/bin/conda install -c pytorch magma-cuda80
+    export PATH="/opt/conda/bin:$PATH"
+    unset CONDA_DEFAULT_ENV
+    export ANACONDA_HOME=/opt/conda
 
-export PATH=/anaconda/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/lib:/usr/local/cuda/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-export CUDA_HOME=/usr/local/cuda
+    # conda update conda
+    conda list
+    pip install --upgrade \
+        pip \
+        future \
+        protobuf \
+        numpy \
+        typing \
+        hypothesis \
+        pydot \
+        opencv-python
 
-conda install pytorch torchvision -c pytorch
+    # install pytorch
+    conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
 
-#git clone --recursive https://github.com/pytorch/pytorch
-#cd pytorch
-#NUM_JOBS=4 /anaconda/bin/python setup.py install
+    # install SparseConvNet
+    git clone https://github.com/facebookresearch/SparseConvNet.git
+    cd SparseConvNet/
+    bash develop.sh
 
-/anaconda/bin/conda install torchvision
+    # install molmimic requirments
+    pip install \
+      pandas \
+      tables \
+      scikit-learn \
+      Biopython \
+      seaborn \
+      tqdm \
+      dask \
+      dask[dataframe] \
+      joblib \
+      tornado==4.5.1 \
+      toolz >= 0.7.3 \
+      partd >= 0.3.8 \
+      cloudpickle >= 0.2.1 \
+      tables \
+      freesasa \
+      boto3 \
+      botocore \
+      awscli \
+      toil
 
-wget ftp://ftp.cmbi.ru.nl/pub/software/dssp/dssp-2.0.4-linux-i386 -O /usr/local/bin/dssp
-chmod a+x /usr/local/bin/dssp
+    conda clean --index-cache --tarballs --packages --yes
 
-wget ftp://ftp.icgeb.trieste.it/pub/CX/CX.c.gz -O /usr/local/bin/CX.c.gz
-gunzip /usr/local/bin/CX.c.gz
-gcc -o /usr/local/bin/cx /usr/local/bin/CX.c -lm
-rm /usr/local/bin/CX.c
+%runscript
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# this text code will run whenever the container
+# is called as an executable or with `singularity run`
+exec python $@
 
-/anaconda/bin/conda install scikit-learn 
-#/anaconda/bin/conda install mayavi
-/anaconda/bin/conda install cython
-/anaconda/bin/conda install Biopython
-/anaconda/bin/conda install numba
-/anaconda/bin/conda install seaborn
-/anaconda/bin/conda install cmake lxml swig
-/anaconda/bin/conda install -c openbabel openbabel
-/anaconda/bin/conda install -c anaconda flask
-#/anaconda/bin/conda install -c electrostatics pdb2pqr
-/anaconda/bin/conda install pyasn1
-/anaconda/bin/conda install pytables
+%help
+This container is backed by Anaconda version 5.2.0 and provides the Python 3.6 bindings for:
+    * PyTorch (latest)
+    * Caffe2
+    * OpenCV
+    * CUDA 10.0
+    * CuDNN 7.4
 
-wget http://freesasa.github.io/freesasa-2.0.3.tar.gz
-tar -xzf freesasa-2.0.3.tar.gz
-cd freesasa-2.0.3
-./configure CFLAGS="-fPIC -O2" --disable-json --disable-xml --prefix=`pwd`
-make && make install
-pip install freesasa
+%environment
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# This sets global environment variables for anything run within the container
 
-cd /
-apt-get install libsparsehash-dev
-git -c http.sslVerify=false clone http://github.com/edraizen/SparseConvNet.git
-cd SparseConvNet/PyTorch/
-/anaconda/bin/python setup.py develop
-
-git -c http.sslVerify=false clone http://github.com/pytorch/tnt.git
-cd tnt
-/anaconda/bin/python setup.py develop
-
-/anaconda/bin/pip install git+https://github.com/szagoruyko/pytorchviz
-/anaconda/bin/pip install tqdm
-
-#/anaconda/bin/python -c "import visdom.server as vs; vs.download_scripts()" 
-
-git clone https://github.com/JoaoRodrigues/pdb-tools
-
-###
-### destination for NIH HPC bind mounts
-###
-mkdir /gpfs /spin1 /gs2 /gs3 /gs4 /gs5 /gs6 /gs7 /gs8 /data /scratch /fdb /lscratch /pdb
