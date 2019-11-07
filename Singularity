@@ -77,8 +77,10 @@ From: arcsUVA/anaconda:cuda10.0-cudnn7.4-py3.6
     # install SparseConvNet
     git clone https://github.com/facebookresearch/SparseConvNet.git
     cd SparseConvNet/
+    sed -i 's/assert/pass #/g' setup.py
     sed -i 's/torch.cuda.is_available()/True/g' setup.py
-    bash develop.sh
+    rm -rf build/ dist/ sparseconvnet.egg-info sparseconvnet_SCN*.so
+    python setup.py develop
 
     # install molmimic requirments
     pip install \
