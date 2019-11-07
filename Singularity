@@ -80,7 +80,7 @@ From: arcsUVA/anaconda:cuda10.0-cudnn7.4-py3.6
     sed -i 's/assert/pass #/g' setup.py
     sed -i 's/torch.cuda.is_available()/True/g' setup.py
     rm -rf build/ dist/ sparseconvnet.egg-info sparseconvnet_SCN*.so
-    python setup.py develop
+    TORCH_CUDA_ARCH_LIST=All python setup.py develop
 
     # install molmimic requirments
     pip install \
