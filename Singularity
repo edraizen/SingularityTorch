@@ -109,6 +109,8 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     pip install opencv-python
 
     conda clean --index-cache --tarballs --packages --yes
+    
+    mkdir /projects
 
 %runscript
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
