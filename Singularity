@@ -76,7 +76,7 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     #    spyder==3.2.6 \
     #    qtconsole==4.3.1 \
     #    qtpy==1.3.1
-    pip install --upgrade pip
+    #pip install --upgrade pip
     pip install future
 
     # install tensorflow with gpu support
