@@ -99,7 +99,7 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     sed -i 's/torch.cuda.is_available()/True/g' setup.py
     echo $CUDA_HOME
     rm -rf build/ dist/ sparseconvnet.egg-info sparseconvnet_SCN*.so
-    python setup.py develop
+    TORCH_CUDA_ARCH_LIST=All python setup.py develop
 
     pip install dask[dataframe]
     pip install scikit-learn Biopython seaborn tqdm dask joblib torchnet tables fastparquet pyarrow
