@@ -67,6 +67,7 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     pip install dask[dataframe]
     pip install scikit-learn Biopython seaborn tqdm dask joblib torchnet tables fastparquet pyarrow
     pip install --ignore-installed freesasa boto3 botocore awscli toil
+    pip install tensorboardX
     
     # install ipython and kernel to create a new jupyter kernal
     pip install ipython ipykernel
