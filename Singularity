@@ -40,9 +40,9 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     export BOOST_ROOT=/usr/local/boost
 
     #wget --quiet https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh -O ~/anaconda.sh
-    wget --quiet https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh -O ~/anaconda.sh
-    /bin/bash ~/anaconda.sh -b -p /opt/conda
-    rm ~/anaconda.sh
+    wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+    /bin/bash ~/miniconda.sh -b -p /opt/conda
+    rm ~/miniconda.sh
     
     conda install -y python=3.6.8
     
