@@ -63,9 +63,13 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     export TORCH_CUDA_ARCH_LIST="3.5;3.7;5.0;5.2;5.3;6.0;6.1;6.2;7.0;7.2;7.5" 
     python setup.py develop
 
+    # install requirements for molmimic
     pip install dask[dataframe]
     pip install scikit-learn Biopython seaborn tqdm dask joblib torchnet tables fastparquet pyarrow
     pip install --ignore-installed freesasa boto3 botocore awscli toil
+    
+    # install ipython and kernel to create a new jupyter kernal
+    pip install ipython ipykernel
 
     # install OpenCV
     pip install opencv-python
