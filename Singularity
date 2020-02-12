@@ -22,7 +22,8 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
         libxext6 \
         libsm6 \
         libxrender1 \
-        libboost-all-dev
+        libboost-all-dev \
+        gdb
 
     rm /etc/machine-id
     dbus-uuidgen --ensure=/etc/machine-id
