@@ -71,6 +71,7 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     pip install tensorboardX
     pip install pytorch-lightning
     pip install test-tube
+    pip install wandb
     
     # install ipython and kernel to create a new jupyter kernal
     pip install ipython ipykernel
