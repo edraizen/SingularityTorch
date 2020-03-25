@@ -28,7 +28,7 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     rm /etc/machine-id
     dbus-uuidgen --ensure=/etc/machine-id
 
-    export CUDA_HOME="/usr/local/cuda"
+    export CUDA_HOME="/usr/local/cuda-10.0"
     export CPATH="$CUDA_HOME/include:$CPATH"
     export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
     export PATH="$CUDA_HOME/bin:$PATH"
