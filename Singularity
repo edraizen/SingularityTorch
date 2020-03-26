@@ -56,13 +56,13 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
       cudatoolkit=10.1 -c pytorch
       
     # install SparseConvNet
-    git clone https://github.com/facebookresearch/SparseConvNet.git
-    cd SparseConvNet/
-    sed -i 's/assert/pass #/g' setup.py
-    sed -i 's/torch.cuda.is_available()/True/g' setup.py
-    rm -rf build/ dist/ sparseconvnet.egg-info sparseconvnet_SCN*.so
-    export TORCH_CUDA_ARCH_LIST="3.5;3.7;5.0;5.2;5.3;6.0;6.1;6.2;7.0;7.2;7.5" 
-    python setup.py develop
+    #git clone https://github.com/facebookresearch/SparseConvNet.git
+    #cd SparseConvNet/
+    #sed -i 's/assert/pass #/g' setup.py
+    #sed -i 's/torch.cuda.is_available()/True/g' setup.py
+    #rm -rf build/ dist/ sparseconvnet.egg-info sparseconvnet_SCN*.so
+    #export TORCH_CUDA_ARCH_LIST="3.5;3.7;5.0;5.2;5.3;6.0;6.1;6.2;7.0;7.2;7.5" 
+    #python setup.py develop
    
     conda instaill -y -c intel mkl mkl-include
     
