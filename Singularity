@@ -30,7 +30,7 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
 
     export CUDA_HOME="/usr/local/cuda-10.0"
     export CPATH="$CUDA_HOME/include:$CPATH"
-    export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="$CUDA_HOME/lib64:/opt/conda/lib:$LD_LIBRARY_PATH"
     export PATH="$CUDA_HOME/bin:$PATH"
     export PATH="/opt/conda/bin:$PATH"
 
@@ -64,7 +64,8 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     #export TORCH_CUDA_ARCH_LIST="3.5;3.7;5.0;5.2;5.3;6.0;6.1;6.2;7.0;7.2;7.5" 
     #python setup.py develop
    
-    conda install -y -c intel mkl mkl-include
+    . /opt/conda/etc/profile.d/conda.sh && \
+    conda activate myenv && \ conda install -y -c intel mkl mkl-include
     
     pip install -U MinkowskiEngine
 
@@ -107,7 +108,7 @@ This container is backed by Anaconda version 4.4.0 and provides the Python 3.6 b
 # This sets global environment variables for anything run within the container
     export CUDA_HOME="/usr/local/cuda-10.0"
     export CPATH="$CUDA_HOME/include:$CPATH"
-    export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="$CUDA_HOME/lib64:/opt/conda/lib:$LD_LIBRARY_PATH"
     export PATH="$CUDA_HOME/bin:$PATH"
 
     export PATH="/opt/conda/bin:$PATH"
