@@ -72,7 +72,7 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     # install requirements for molmimic
     pip install dask[dataframe]
     pip install scikit-learn Biopython seaborn tqdm dask joblib torchnet tables fastparquet pyarrow
-    pip install --ignore-installed freesasa boto3 botocore awscli toil
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && pip install --ignore-installed freesasa boto3 botocore awscli toil
     pip install tensorboardX
     pip install pytorch-lightning
     pip install test-tube
