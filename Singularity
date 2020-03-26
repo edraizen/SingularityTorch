@@ -53,7 +53,7 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     conda install -y \
       pytorch \
       torchvision \
-      cudatoolkit=10.0 -c pytorch
+      cudatoolkit=10.1 -c pytorch
       
     # install SparseConvNet
     git clone https://github.com/facebookresearch/SparseConvNet.git
