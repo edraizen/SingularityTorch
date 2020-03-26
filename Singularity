@@ -65,9 +65,9 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     #python setup.py develop
    
     #. /opt/conda/etc/profile.d/conda.sh && \
-    #conda activate myenv && \ conda install -y -c intel mkl mkl-include
+    conda install -y -c intel mkl mkl-include
     
-   . /opt/conda/etc/profile.d/conda.sh && . /opt/conda/activate && pip install -U MinkowskiEngine
+    . /opt/conda/etc/profile.d/conda.sh && . /opt/conda/activate && pip install -U MinkowskiEngine
 
     # install requirements for molmimic
     pip install dask[dataframe]
