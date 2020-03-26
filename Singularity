@@ -63,6 +63,8 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     rm -rf build/ dist/ sparseconvnet.egg-info sparseconvnet_SCN*.so
     export TORCH_CUDA_ARCH_LIST="3.5;3.7;5.0;5.2;5.3;6.0;6.1;6.2;7.0;7.2;7.5" 
     python setup.py develop
+   
+    conda instaill -y -c intel mkl mkl-include
     
     pip install -U MinkowskiEngine
 
