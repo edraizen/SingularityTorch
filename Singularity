@@ -68,6 +68,7 @@ From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
     conda install -y -c intel mkl mkl-include
     
     . /opt/conda/etc/profile.d/conda.sh && conda activate && pip install -U MinkowskiEngine
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && pip install pytorch-fft
 
     # install requirements for molmimic
     pip install dask[dataframe]
