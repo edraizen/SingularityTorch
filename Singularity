@@ -1,5 +1,5 @@
 BootStrap: docker
-From: nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
+From: nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
 
 %post
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
