@@ -28,7 +28,7 @@ From: nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
     rm /etc/machine-id
     dbus-uuidgen --ensure=/etc/machine-id
 
-    export CUDA_HOME="/usr/local/cuda-10.0"
+    export CUDA_HOME="/usr/local/cuda-10.1"
     export CPATH="$CUDA_HOME/include:$CPATH"
     export LD_LIBRARY_PATH="$CUDA_HOME/lib64:/opt/conda/lib:$LD_LIBRARY_PATH"
     export PATH="$CUDA_HOME/bin:$PATH"
@@ -107,7 +107,7 @@ This container is backed by Anaconda version 4.4.0 and provides the Python 3.6 b
 %environment
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # This sets global environment variables for anything run within the container
-    export CUDA_HOME="/usr/local/cuda-10.0"
+    export CUDA_HOME="/usr/local/cuda-10.1"
     export CPATH="$CUDA_HOME/include:$CPATH"
     export LD_LIBRARY_PATH="$CUDA_HOME/lib64:/opt/conda/lib:$LD_LIBRARY_PATH"
     export PATH="$CUDA_HOME/bin:$PATH"
