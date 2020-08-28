@@ -72,7 +72,7 @@ From: nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && pip install -U MinkowskiEngine
     git clone https://github.com/edraizen/MinkowskiEngine.git
     cd MinkowskiEngine
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda --blas=openblas
 
     # install requirements for molmimic
     pip install dask[dataframe]
