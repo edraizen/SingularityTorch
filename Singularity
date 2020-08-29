@@ -1,5 +1,5 @@
 BootStrap: docker
-From: nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
+From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 
 %post
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,7 +23,8 @@ From: nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
         libsm6 \
         libxrender1 \
         libboost-all-dev \
-        gdb
+        gdb \
+        libopenblas-dev
 
     rm /etc/machine-id
     dbus-uuidgen --ensure=/etc/machine-id
@@ -45,15 +46,9 @@ From: nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
     /bin/bash ~/miniconda.sh -b -p /opt/conda
     rm ~/miniconda.sh
     
-    conda install -y python=3.6.8
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y python=3.7
     
-    pip install future
-
-    # install pytorch
-    conda install -y \
-      pytorch \
-      torchvision \
-      cudatoolkit=10.1 -c pytorch
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c anaconda future
       
     # install SparseConvNet
     #git clone https://github.com/facebookresearch/SparseConvNet.git
@@ -65,16 +60,15 @@ From: nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
     #python setup.py develop
    
     #. /opt/conda/etc/profile.d/conda.sh && \
-    conda install -y -c intel mkl mkl-include
+    # conda install -y -c intel mkl mkl-include
     
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install numpy mkl-include
-    
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install numpy mkl-include pytorch cudatoolkit=10.2 -c pytorch
     . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c anaconda openblas
     
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && pip install -U MinkowskiEngine
     git clone https://github.com/edraizen/MinkowskiEngine.git
     cd MinkowskiEngine
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda --blas=openblas
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda #--blas=openblas
 
     # install requirements for molmimic
     pip install dask[dataframe]
