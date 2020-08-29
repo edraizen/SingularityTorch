@@ -24,7 +24,8 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
         libxrender1 \
         libboost-all-dev \
         gdb \
-        libopenblas-dev
+        libopenblas-dev \
+        g++-7
 
     rm /etc/machine-id
     dbus-uuidgen --ensure=/etc/machine-id
@@ -68,6 +69,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && pip install -U MinkowskiEngine
     git clone https://github.com/edraizen/MinkowskiEngine.git
     cd MinkowskiEngine
+    export CXX=gcc-7
     . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda #--blas=openblas
 
     # install requirements for molmimic
