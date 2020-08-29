@@ -69,6 +69,8 @@ From: nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
     
     . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install numpy mkl-include
     
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c anaconda openblas
+    
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && pip install -U MinkowskiEngine
     git clone https://github.com/edraizen/MinkowskiEngine.git
     cd MinkowskiEngine
