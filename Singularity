@@ -79,7 +79,8 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     . /opt/conda/etc/profile.d/conda.sh && conda activate && pip install --ignore-installed boto3 botocore awscli toil
      . /opt/conda/etc/profile.d/conda.sh && conda activate && pip install --ignore-installed freesasa==2.0.3.post7
     pip install tensorboardX
-    pip install pytorch-lightning
+    #pip install pytorch-lightning
+    pip install git+https://github.com/PytorchLightning/pytorch-lightning.git@master --upgrade
     pip install test-tube
     pip install wandb
     
