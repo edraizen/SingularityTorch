@@ -63,8 +63,22 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     #. /opt/conda/etc/profile.d/conda.sh && \
     # conda install -y -c intel mkl mkl-include
     
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install numpy mkl-include pytorch cudatoolkit=10.2 -c pytorch
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install numpy ninja pyyaml mkl mkl-include setuptools cmake cffi typing_extensions future six requests dataclasses
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c pytorch magma-cuda102
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c anaconda cudatoolkit=10.2
+    #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install numpy mkl-include pytorch cudatoolkit=10.2 -c pytorch
     . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c anaconda openblas
+    
+    cd /opt
+    git clone --recursive https://github.com/pytorch/pytorch
+    cd pytorch
+    git submodule sync
+    git submodule update --init --recursive
+    
+    export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
+    sed -i 's/set(TORCH_CXX_FLAGS/#set(TORCH_CXX_FLAGS/g' cmake/TorchConfig.cmake.in
+    
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && CXX=gcc-7 python setup.py install
     
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && pip install -U MinkowskiEngine
     git clone https://github.com/edraizen/MinkowskiEngine.git
