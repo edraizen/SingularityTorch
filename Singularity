@@ -72,6 +72,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     cd /opt
     git clone --recursive https://github.com/pytorch/pytorch
     cd pytorch
+    git checkout 1.6
     git submodule sync
     git submodule update --init --recursive
     
