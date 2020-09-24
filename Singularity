@@ -25,7 +25,9 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
         libboost-all-dev \
         gdb \
         libopenblas-dev \
-        g++-7
+        g++-10
+        
+    gcc --version
 
     rm /etc/machine-id
     dbus-uuidgen --ensure=/etc/machine-id
@@ -105,6 +107,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     pip install git+https://github.com/PytorchLightning/pytorch-lightning.git@master --upgrade
     pip install test-tube
     pip install wandb
+    pip install horovod
     
     # install ipython and kernel to create a new jupyter kernal
     pip install ipython ipykernel
