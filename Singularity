@@ -78,7 +78,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     
     export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
     #sed -i 's/set(TORCH_CXX_FLAGS/#set(TORCH_CXX_FLAGS/g' cmake/TorchConfig.cmake.in
-    sed -i 's/@GLIBCXX_USE_CXX11_ABI@/0/g' cmake/TorchConfig.cmake.in
+    #sed -i 's/@GLIBCXX_USE_CXX11_ABI@/0/g' cmake/TorchConfig.cmake.in
     
     . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install
     
