@@ -71,16 +71,22 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     
     cd /opt
     git clone --recursive https://github.com/pytorch/pytorch
-    cd pytorch
+    cd /opt/pytorch
     git checkout 1.6
     git submodule sync
     git submodule update --init --recursive
     
+    export TORCH_CUDA_ARCH_LIST="3.5;3.7;5.0;5.2;5.3;6.0;6.1;6.2;7.0;7.2;7.5;8.0;3.5+PTX;3.7+PTX;5.0+PTX;5.2+PTX;5.3+PTX;6.0+PTX;6.1+PTX;6.2+PTX;7.0+PTX;7.2+PTX;7.5+PTX;8.0+PTX"
+    
     export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
+    
+    #https://github.com/pytorch/pytorch/issues/13541 # -D_GLIBCXX_USE_CXX11_ABI=0
+    export TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
+    
     #sed -i 's/set(TORCH_CXX_FLAGS/#set(TORCH_CXX_FLAGS/g' cmake/TorchConfig.cmake.in
     #sed -i 's/@GLIBCXX_USE_CXX11_ABI@/0/g' cmake/TorchConfig.cmake.in
     
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && pip install -v .
     
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && pip install -U MinkowskiEngine
     git clone https://github.com/edraizen/MinkowskiEngine.git
