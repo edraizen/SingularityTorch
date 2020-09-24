@@ -88,7 +88,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     #sed -i 's/set(TORCH_CXX_FLAGS/#set(TORCH_CXX_FLAGS/g' cmake/TorchConfig.cmake.in
     #sed -i 's/@GLIBCXX_USE_CXX11_ABI@/0/g' cmake/TorchConfig.cmake.in
     
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && pip install -v .
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && BUILD_TEST=0 BUILD_BINARY=0 pip install -v .
     
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && pip install -U MinkowskiEngine
     git clone https://github.com/edraizen/MinkowskiEngine.git
