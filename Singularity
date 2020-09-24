@@ -26,7 +26,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
         gdb \
         libopenblas-dev
         
-    apt install software-properties-common
+    apt-get install software-properties-common
     add-apt-repository ppa:ubuntu-toolchain-r/test
     apt install gcc-9 g++-9
     update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
