@@ -26,14 +26,14 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
         gdb \
         libopenblas-dev
         
-    apt-get install software-properties-common
-    add-apt-repository ppa:ubuntu-toolchain-r/test
-    apt-get -y install gcc-9 g++-9
-    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
-    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
+    #apt-get install software-properties-common
+    #add-apt-repository ppa:ubuntu-toolchain-r/test
+    #apt-get -y install gcc-9 g++-9
+    #update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
+    #update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
     
-    update-alternatives --display gcc
-    update-alternatives --display g++
+    #update-alternatives --display gcc
+    #update-alternatives --display g++
 
     rm /etc/machine-id
     dbus-uuidgen --ensure=/etc/machine-id
