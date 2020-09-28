@@ -24,9 +24,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
         libxrender1 \
         libboost-all-dev \
         gdb \
-        libopenblas-dev \
-        libnccl2 \
-        libnccl-dev
+        libopenblas-dev
         
     apt-get install software-properties-common
     add-apt-repository ppa:ubuntu-toolchain-r/test
@@ -75,6 +73,8 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     
     . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y numpy ninja pyyaml mkl mkl-include setuptools cmake cffi typing_extensions future six requests dataclasses
     . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y -c pytorch magma-cuda102
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c anaconda nccl
+
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y -c anaconda cudatoolkit=10.2
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y numpy mkl-include pytorch cudatoolkit=10.2 -c pytorch
     . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y -c anaconda openblas
