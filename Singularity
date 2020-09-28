@@ -30,11 +30,9 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
         
     apt-get install software-properties-common
     add-apt-repository ppa:ubuntu-toolchain-r/test
-    apt install gcc-9 g++-9
+    apt-get -y install gcc-9 g++-9
     update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
     update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
-        
-    gcc --version
     
     update-alternatives --display gcc
     update-alternatives --display g++
