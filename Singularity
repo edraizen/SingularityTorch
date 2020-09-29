@@ -105,7 +105,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     git clone https://github.com/edraizen/MinkowskiEngine.git
     cd MinkowskiEngine
     ls -la $CUDA_HOME
-    export CXX=gcc-9
+    export CXX=gcc-8
     . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda #--blas=openblas
 
     # install requirements for molmimic
