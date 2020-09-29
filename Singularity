@@ -8,6 +8,11 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     apt-get -y upgrade
     
     echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
+    
+    wget https://developer.nvidia.com/compute/machine-learning/nccl/secure/v2.7/prod/nccl-repo-ubuntu1604-2.7.8-ga-cuda10.2_1-1_amd64.deb
+    wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
+    dpkg -i nccl-repo-ubuntu1604-2.7.8-ga-cuda10.2_1-1_amd64.deb
+    dpkg -i nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
 
     # install other dependencies
     apt-get -y install --allow-downgrades --no-install-recommends \
