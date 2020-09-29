@@ -27,7 +27,8 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
         libboost-all-dev \
         gdb \
         libopenblas-dev \ 
-        libnccl2=2.7.8-1+cuda10.2 libnccl-dev=2.7.8-1+cuda10.2
+        libnccl2=2.7.8-1+cuda10.2 \
+        libnccl-dev=2.7.8-1+cuda10.2
         
     echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
     
