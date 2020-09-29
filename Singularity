@@ -25,7 +25,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
         libboost-all-dev \
         gdb \
         libopenblas-dev
-        g++-7 \
+        g++-9 \
         
     #apt-get install software-properties-common
     #add-apt-repository ppa:ubuntu-toolchain-r/test
@@ -106,7 +106,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     git clone https://github.com/edraizen/MinkowskiEngine.git
     cd MinkowskiEngine
     ls -la $CUDA_HOME
-    export CXX=gcc-7
+    export CXX=gcc-9
     . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda #--blas=openblas
 
     # install requirements for molmimic
