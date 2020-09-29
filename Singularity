@@ -6,6 +6,8 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 # this will install all necessary packages and prepare the container
     apt-get -y update
     apt-get -y upgrade
+    
+    echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
     # install other dependencies
     apt-get -y install --allow-downgrades --no-install-recommends \
@@ -24,13 +26,18 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
         libxrender1 \
         libboost-all-dev \
         gdb \
-        libopenblas-dev
+        libopenblas-dev \ 
+        libnccl2=2.7.8-1+cuda10.2 libnccl-dev=2.7.8-1+cuda10.2
         
     apt-get -y install software-properties-common
     add-apt-repository ppa:ubuntu-toolchain-r/test
     apt-get -y install gcc-8 g++-8
     #update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
     #update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
+    
+    # Install the IB verbs
+    apt-get install -y --no-install-recommends libibverbs*
+    apt-get install -y --no-install-recommends ibverbs-utils librdmacm* infiniband-diags libmlx4* libmlx5* libnuma*
     
     #update-alternatives --display gcc
     #update-alternatives --display g++
@@ -107,6 +114,21 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     ls -la $CUDA_HOME
     export CXX=gcc-8
     . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda #--blas=openblas
+    
+    # Install Horovod, temporarily using CUDA stubs
+    ldconfig $CUDA_HOME/targets/x86_64-linux/lib/stubs && \
+    HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 pip install --no-cache-dir horovod && \
+    ldconfig
+    
+    # Configure OpenMPI to run good defaults:
+    #   --bind-to none --map-by slot --mca btl_tcp_if_exclude lo,docker0
+    echo "hwloc_base_binding_policy = none" >> /usr/local/etc/openmpi-mca-params.conf && \
+    echo "rmaps_base_mapping_policy = slot" >> /usr/local/etc/openmpi-mca-params.conf 
+    #echo "btl_tcp_if_exclude = lo,docker0" >> /usr/local/etc/openmpi-mca-params.conf
+    
+    # Set default NCCL parameters
+    echo NCCL_DEBUG=INFO >> /etc/nccl.conf && \
+    echo NCCL_SOCKET_IFNAME=^docker0 >> /etc/nccl.conf
 
     # install requirements for molmimic
     pip install dask[dataframe]
