@@ -71,7 +71,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     #. /opt/conda/etc/profile.d/conda.sh && \
     # conda install -y -c intel mkl mkl-include
     
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y numpy ninja pyyaml mkl mkl-include setuptools cmake cffi typing_extensions future six requests dataclasses
+    #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y numpy ninja pyyaml mkl mkl-include setuptools cmake cffi typing_extensions future six requests dataclasses
    # . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y -c pytorch magma-cuda102
     . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c anaconda nccl
 
