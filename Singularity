@@ -30,18 +30,18 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
         
     echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
     
-    wget https://developer.nvidia.com/compute/machine-learning/nccl/secure/v2.7/prod/nccl-repo-ubuntu1604-2.7.8-ga-cuda10.2_1-1_amd64.deb
-    wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
-    dpkg -i nccl-repo-ubuntu1604-2.7.8-ga-cuda10.2_1-1_amd64.deb
-    dpkg -i nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
+    #wget --user ed4bu@virginia.edu --password pOakland^1992 https://developer.nvidia.com/compute/machine-learning/nccl/secure/v2.7/prod/nccl-repo-ubuntu1604-2.7.8-ga-cuda10.2_1-1_amd64.deb
+    #wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
+    #dpkg -i nccl-repo-ubuntu1604-2.7.8-ga-cuda10.2_1-1_amd64.deb
+    #dpkg -i nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
     
     apt-get -y install --allow-downgrades --no-install-recommends \
-        libopenblas-dev \ 
-        libnccl2=2.7.8-1+cuda10.2 libnccl-dev=2.7.8-1+cuda10.2
+        libnccl2=2.7.8-1+cuda10.2\
+        libnccl-dev=2.7.8-1+cuda10.2
         
     apt-get -y install software-properties-common
     add-apt-repository ppa:ubuntu-toolchain-r/test
-    apt-get -y install gcc-8 g++-8
+    apt-get -y install g++-7
     #update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
     #update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
     
@@ -90,7 +90,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y numpy ninja pyyaml mkl mkl-include setuptools cmake cffi typing_extensions future six requests dataclasses
    # . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y -c pytorch magma-cuda102
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c anaconda nccl
+    #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c anaconda nccl
 
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y -c anaconda cudatoolkit=10.2
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y numpy mkl-include pytorch cudatoolkit=10.2 -c pytorch
@@ -122,12 +122,12 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     git clone https://github.com/edraizen/MinkowskiEngine.git
     cd MinkowskiEngine
     ls -la $CUDA_HOME
-    export CXX=gcc-8
+    export CXX=gcc-7
     . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda #--blas=openblas
     
     # Install Horovod, temporarily using CUDA stubs
     ldconfig $CUDA_HOME/targets/x86_64-linux/lib/stubs && \
-    HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 pip install --no-cache-dir horovod && \
+    HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_WITH_PYTORCH=1 pip install --no-cache-dir horovod && \
     ldconfig
     
     # Configure OpenMPI to run good defaults:
@@ -148,9 +148,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     pip install tensorboardX
     #pip install pytorch-lightning
     pip install git+https://github.com/PytorchLightning/pytorch-lightning.git@master --upgrade
-    pip install test-tube
     pip install wandb
-    pip install horovod
     
     # install ipython and kernel to create a new jupyter kernal
     pip install ipython ipykernel
