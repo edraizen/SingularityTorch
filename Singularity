@@ -25,6 +25,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
         libboost-all-dev \
         gdb \
         libopenblas-dev
+        g++-7 \
         
     #apt-get install software-properties-common
     #add-apt-repository ppa:ubuntu-toolchain-r/test
@@ -77,9 +78,10 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y -c anaconda cudatoolkit=10.2
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y numpy mkl-include pytorch cudatoolkit=10.2 -c pytorch
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y -c anaconda openblas
+   
     
     . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install numpy mkl-include pytorch cudatoolkit=10.2 -c pytorch
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y -c anaconda openblas
     
     #cd /opt
     #git clone --recursive https://github.com/pytorch/pytorch
