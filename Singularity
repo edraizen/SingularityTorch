@@ -30,11 +30,6 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
         
     echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
     
-    #wget --user ed4bu@virginia.edu --password pOakland^1992 https://developer.nvidia.com/compute/machine-learning/nccl/secure/v2.7/prod/nccl-repo-ubuntu1604-2.7.8-ga-cuda10.2_1-1_amd64.deb
-    #wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
-    #dpkg -i nccl-repo-ubuntu1604-2.7.8-ga-cuda10.2_1-1_amd64.deb
-    #dpkg -i nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
-    
     apt-get -y install --allow-downgrades --no-install-recommends \
         libnccl2=2.7.8-1+cuda10.2\
         libnccl-dev=2.7.8-1+cuda10.2
@@ -42,16 +37,11 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     apt-get -y install software-properties-common
     add-apt-repository ppa:ubuntu-toolchain-r/test
     apt-get -y install g++-7
-    #update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
-    #update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
     
     # Install the IB verbs
     apt-get install -y --no-install-recommends libibverbs*
     apt-get install -y --no-install-recommends ibverbs-utils librdmacm* infiniband-diags libmlx4* libmlx5* libnuma*
     
-    #update-alternatives --display gcc
-    #update-alternatives --display g++
-
     rm /etc/machine-id
     dbus-uuidgen --ensure=/etc/machine-id
 
@@ -67,7 +57,6 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 
     export BOOST_ROOT=/usr/local/boost
 
-    #wget --quiet https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh -O ~/anaconda.sh
     wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
     /bin/bash ~/miniconda.sh -b -p /opt/conda
     rm ~/miniconda.sh
@@ -76,54 +65,19 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     
     . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c anaconda future
       
-    # install SparseConvNet
-    #git clone https://github.com/facebookresearch/SparseConvNet.git
-    #cd SparseConvNet/
-    #sed -i 's/assert/pass #/g' setup.py
-    #sed -i 's/torch.cuda.is_available()/True/g' setup.py
-    #rm -rf build/ dist/ sparseconvnet.egg-info sparseconvnet_SCN*.so
-    #export TORCH_CUDA_ARCH_LIST="3.5;3.7;5.0;5.2;5.3;6.0;6.1;6.2;7.0;7.2;7.5" 
-    #python setup.py develop
-   
-    #. /opt/conda/etc/profile.d/conda.sh && \
-    # conda install -y -c intel mkl mkl-include
-    
-    #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y numpy ninja pyyaml mkl mkl-include setuptools cmake cffi typing_extensions future six requests dataclasses
-   # . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y -c pytorch magma-cuda102
-    #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c anaconda nccl
-
-    #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y -c anaconda cudatoolkit=10.2
-    #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y numpy mkl-include pytorch cudatoolkit=10.2 -c pytorch
-   
-    
     . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install numpy mkl-include pytorch cudatoolkit=10.2 -c pytorch
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y -c anaconda openblas
-    
-    #cd /opt
-    #git clone --recursive https://github.com/pytorch/pytorch
-    #cd /opt/pytorch
-    #git checkout 1.6
-    #git submodule sync
-    #git submodule update --init --recursive
-    
-    #export TORCH_CUDA_ARCH_LIST="3.5;3.7;5.0;5.2;5.3;6.0;6.1;6.2;7.0;7.2;7.5;3.5+PTX;3.7+PTX;5.0+PTX;5.2+PTX;5.3+PTX;6.0+PTX;6.1+PTX;6.2+PTX;7.0+PTX;7.2+PTX;7.5+PTX" #;8.0+PTX
-    
-    #export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
     
     #https://github.com/pytorch/pytorch/issues/13541 # -D_GLIBCXX_USE_CXX11_ABI=0
     #export TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
     
-    #sed -i 's/set(TORCH_CXX_FLAGS/#set(TORCH_CXX_FLAGS/g' cmake/TorchConfig.cmake.in
-    #sed -i 's/@GLIBCXX_USE_CXX11_ABI@/0/g' cmake/TorchConfig.cmake.in
     
-    #. /opt/conda/etc/profile.d/conda.sh && conda activate && BUILD_TEST=0 BUILD_BINARY=0 pip install -v .
     
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && pip install -U MinkowskiEngine
     git clone https://github.com/edraizen/MinkowskiEngine.git
     cd MinkowskiEngine
     ls -la $CUDA_HOME
     export CXX=gcc-7
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda #--blas=openblas
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda 
     
     # Install Horovod, temporarily using CUDA stubs
     ldconfig $CUDA_HOME/targets/x86_64-linux/lib/stubs && \
