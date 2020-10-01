@@ -79,9 +79,33 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     export CXX=gcc-7
     . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda 
     
+    # Install Open MPI
+    #mkdir /tmp/openmpi && \
+    #    cd /tmp/openmpi && \
+    #    wget https://www.open-mpi.org/software/ompi/v4.0/downloads/openmpi-4.0.0.tar.gz && \
+    #    tar zxf openmpi-4.0.0.tar.gz && \
+    #    cd openmpi-4.0.0 && \
+    #    ./configure --enable-orterun-prefix-by-default && \
+    #    make -j $(nproc) all && \
+    #    make install && \
+    #    ldconfig && \
+    #    rm -rf /tmp/openmpii
+    #export MPI_C_COMPILER=mpiicc
+    #export MPI_CXX_COMPILER=mpiicpc
+    #export MPI_CXX=mpiicpc
+    #export -DMPI_CXX_LIBRARIES=[path to wherever the object is]/libmpi_cxx.so \
+    #-DMPI_C_LIBRARIES=[path to wherever the object is]/libmpi.so \
+    #-DMPI_CXX_INCLUDE_PATH=[path to wherever MPI headers are] \
+    #-DMPI_C_INCLUDE_PATH=[same header path as above]
+    #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install openmpi openmpi-mpicc
+    #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda uninstall intel-openmp
+    apt-get install --reinstall openmpi-bin libopenmpi-dev
+    which mpicc
+    export MPI_CXX=mpicc
+
     # Install Horovod, temporarily using CUDA stubs
     ldconfig $CUDA_HOME/targets/x86_64-linux/lib/stubs && \
-    HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_WITH_PYTORCH=1 pip install --no-cache-dir horovod && \
+    HOROVOD_WITHOUT_TENSORFLOW=1 HOROVOD_WITHOUT_MXNET=1 HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_PYTORCH=1 pip install --no-cache-dir horovod && \
     ldconfig
     
     # Configure OpenMPI to run good defaults:
@@ -90,6 +114,15 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     echo "rmaps_base_mapping_policy = slot" >> /usr/local/etc/openmpi-mca-params.conf 
     #echo "btl_tcp_if_exclude = lo,docker0" >> /usr/local/etc/openmpi-mca-params.conf
     
+    # Install OpenSSH for MPI to communicate between containers
+    apt-get install -y --no-install-recommends openssh-client openssh-server && \
+        mkdir -p /var/run/sshd
+
+    # Allow OpenSSH to talk to containers without asking for confirmation
+    cat /etc/ssh/ssh_config | grep -v StrictHostKeyChecking > /etc/ssh/ssh_config.new && \
+        echo "    StrictHostKeyChecking no" >> /etc/ssh/ssh_config.new && \
+        mv /etc/ssh/ssh_config.new /etc/ssh/ssh_config
+
     # Set default NCCL parameters
     echo NCCL_DEBUG=INFO >> /etc/nccl.conf && \
     echo NCCL_SOCKET_IFNAME=^docker0 >> /etc/nccl.conf
