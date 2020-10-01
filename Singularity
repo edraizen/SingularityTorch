@@ -72,9 +72,9 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     cd pytorch
     git checkout 1.6
     git submodule update --init --recursive
-    TORCH_CUDA_ARCH_LIST="3.5 5.2 6.0 6.1 7.0+PTX" TORCH_NVCC_FLAGS="-Xfatbin -compress-all" \
-    CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" \
-    python setup.py install
+    TORCH_CUDA_ARCH_LIST="3.5 5.2 6.0 6.1" TORCH_NVCC_FLAGS="-Xfatbin -compress-all" \
+    CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" TORCH_CXX_FLAGS="-D_GLIBCXX_USE_CXX11_ABI=0" \
+    MAX_JOBS=16 python setup.py install
 
     #https://github.com/pytorch/pytorch/issues/13541 # -D_GLIBCXX_USE_CXX11_ABI=0
     #export TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
@@ -98,7 +98,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 
     # Install Horovod, temporarily using CUDA stubs
     ldconfig $CUDA_HOME/targets/x86_64-linux/lib/stubs && \
-    HOROVOD_WITHOUT_TENSORFLOW=1 HOROVOD_WITHOUT_MXNET=1 HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_PYTORCH=1 pip install --no-cache-dir horovod && \
+    HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_WITHOUT_TENSORFLOW=1 HOROVOD_WITHOUT_MXNET=1 HOROVOD_WITH_PYTORCH=1 pip install --no-cache-dir horovod && \
     ldconfig
 
     # Configure OpenMPI to run good defaults:
