@@ -6,8 +6,8 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 # this will install all necessary packages and prepare the container
     apt-get -y update
     apt-get -y upgrade
-    
-    
+
+
 
     # install other dependencies
     apt-get -y install --allow-downgrades --no-install-recommends \
@@ -27,21 +27,21 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
         libboost-all-dev \
         gdb \
         libopenblas-dev
-        
+
     echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
-    
+
     apt-get -y install --allow-downgrades --no-install-recommends \
         libnccl2=2.7.8-1+cuda10.2\
         libnccl-dev=2.7.8-1+cuda10.2
-        
+
     apt-get -y install software-properties-common
     add-apt-repository ppa:ubuntu-toolchain-r/test
     apt-get -y install g++-7
-    
+
     # Install the IB verbs
     apt-get install -y --no-install-recommends libibverbs*
     apt-get install -y --no-install-recommends ibverbs-utils librdmacm* infiniband-diags libmlx4* libmlx5* libnuma*
-    
+
     rm /etc/machine-id
     dbus-uuidgen --ensure=/etc/machine-id
 
@@ -60,60 +60,53 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
     /bin/bash ~/miniconda.sh -b -p /opt/conda
     rm ~/miniconda.sh
-    
+
     . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -y python=3.7
-    
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c anaconda future
-      
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install numpy mkl-include pytorch cudatoolkit=10.2 -c pytorch
-    
+
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c anaconda future conda-build numpy ninja pyyaml mkl mkl-include setuptools cmake cffi typing_extensions future six requests dataclasses #
+
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install -c pytorch magma-cuda102
+
+
+    git clone https://github.com/pytorch/pytorch.git
+    cd pytorch
+    git checkout 1.6
+    git submodule update --init --recursive
+    TORCH_CUDA_ARCH_LIST="3.5 5.2 6.0 6.1 7.0+PTX" TORCH_NVCC_FLAGS="-Xfatbin -compress-all" \
+    CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" \
+    python setup.py install
+
     #https://github.com/pytorch/pytorch/issues/13541 # -D_GLIBCXX_USE_CXX11_ABI=0
     #export TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
-    
-    
-    
+
+    #IF NOT FROM SOURCE, UNOCMMENT
+    #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install numpy mkl-include pytorch cudatoolkit=10.2 -c pytorch
+
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install mkl-include cudatoolkit=10.2 -c pytorch
+
+
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && pip install -U MinkowskiEngine
     git clone https://github.com/edraizen/MinkowskiEngine.git
     cd MinkowskiEngine
     ls -la $CUDA_HOME
     export CXX=gcc-7
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda 
-    
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda
+
     # Install Open MPI
-    #mkdir /tmp/openmpi && \
-    #    cd /tmp/openmpi && \
-    #    wget https://www.open-mpi.org/software/ompi/v4.0/downloads/openmpi-4.0.0.tar.gz && \
-    #    tar zxf openmpi-4.0.0.tar.gz && \
-    #    cd openmpi-4.0.0 && \
-    #    ./configure --enable-orterun-prefix-by-default && \
-    #    make -j $(nproc) all && \
-    #    make install && \
-    #    ldconfig && \
-    #    rm -rf /tmp/openmpii
-    #export MPI_C_COMPILER=mpiicc
-    #export MPI_CXX_COMPILER=mpiicpc
-    #export MPI_CXX=mpiicpc
-    #export -DMPI_CXX_LIBRARIES=[path to wherever the object is]/libmpi_cxx.so \
-    #-DMPI_C_LIBRARIES=[path to wherever the object is]/libmpi.so \
-    #-DMPI_CXX_INCLUDE_PATH=[path to wherever MPI headers are] \
-    #-DMPI_C_INCLUDE_PATH=[same header path as above]
-    #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install openmpi openmpi-mpicc
-    #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda uninstall intel-openmp
     apt-get install --reinstall openmpi-bin libopenmpi-dev
-    which mpicc
     export MPI_CXX=mpicc
 
     # Install Horovod, temporarily using CUDA stubs
     ldconfig $CUDA_HOME/targets/x86_64-linux/lib/stubs && \
     HOROVOD_WITHOUT_TENSORFLOW=1 HOROVOD_WITHOUT_MXNET=1 HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_PYTORCH=1 pip install --no-cache-dir horovod && \
     ldconfig
-    
+
     # Configure OpenMPI to run good defaults:
     #   --bind-to none --map-by slot --mca btl_tcp_if_exclude lo,docker0
     echo "hwloc_base_binding_policy = none" >> /usr/local/etc/openmpi-mca-params.conf && \
-    echo "rmaps_base_mapping_policy = slot" >> /usr/local/etc/openmpi-mca-params.conf 
+    echo "rmaps_base_mapping_policy = slot" >> /usr/local/etc/openmpi-mca-params.conf
     #echo "btl_tcp_if_exclude = lo,docker0" >> /usr/local/etc/openmpi-mca-params.conf
-    
+
     # Install OpenSSH for MPI to communicate between containers
     apt-get install -y --no-install-recommends openssh-client openssh-server && \
         mkdir -p /var/run/sshd
@@ -136,7 +129,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     #pip install pytorch-lightning
     pip install git+https://github.com/PytorchLightning/pytorch-lightning.git@master --upgrade
     pip install wandb
-    
+
     # install ipython and kernel to create a new jupyter kernal
     pip install ipython ipykernel
 
