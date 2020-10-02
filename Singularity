@@ -37,6 +37,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     apt-get -y install software-properties-common
     add-apt-repository ppa:ubuntu-toolchain-r/test
     apt-get -y install g++-7
+    #export CXX=gcc-7
 
     # Install the IB verbs
     apt-get install -y --no-install-recommends libibverbs*
@@ -70,14 +71,28 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 
     git clone https://github.com/pytorch/pytorch.git
     cd pytorch
-    git checkout 1.6
+    git checkout tags/v1.6.0
     git submodule update --init --recursive
-    TORCH_CUDA_ARCH_LIST="3.5 5.2 6.0 6.1" TORCH_NVCC_FLAGS="-Xfatbin -compress-all" \
-    CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" TORCH_CXX_FLAGS="-D_GLIBCXX_USE_CXX11_ABI=0" \
-    MAX_JOBS=16 python setup.py install
-
+    
     #https://github.com/pytorch/pytorch/issues/13541 # -D_GLIBCXX_USE_CXX11_ABI=0
     #export TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
+    
+    echo 'set(TORCH_CXX_FLAGS "-D_GLIBCXX_USE_CXX11_ABI=0")' > no_abi.txt
+    cat no_abi.txt torch/CMakeLists.txt > torch/CMakeLists.txt.1
+    rm torch/CMakeLists.txt
+    mv torch/CMakeLists.txt.1 torch/CMakeLists.txt
+    rm no_abi.txt
+    #sed -i 's/set(TORCH_CXX_FLAGS/#set(TORCH_CXX_FLAGS/g' cmake/TorchConfig.cmake.in
+    sed -i 's/@GLIBCXX_USE_CXX11_ABI@/0/g' cmake/TorchConfig.cmake.in
+    
+     . /opt/conda/etc/profile.d/conda.sh && conda activate && TORCH_CUDA_ARCH_LIST="3.5 5.2 6.0 6.1" TORCH_NVCC_FLAGS="-Xfatbin -compress-all" \
+    CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" \
+    MAX_JOBS=16 python setup.py install
+    
+    cd /
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && python -c "import torch; print('PYTORCH USING CXX11_ABI =', torch._C._GLIBCXX_USE_CXX11_ABI )"
+
+    
 
     #IF NOT FROM SOURCE, UNOCMMENT
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && conda install numpy mkl-include pytorch cudatoolkit=10.2 -c pytorch
@@ -88,9 +103,9 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     #. /opt/conda/etc/profile.d/conda.sh && conda activate && pip install -U MinkowskiEngine
     git clone https://github.com/edraizen/MinkowskiEngine.git
     cd MinkowskiEngine
-    ls -la $CUDA_HOME
+    make clean
     export CXX=gcc-7
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && python setup.py install --force_cuda --cuda_home=$CUDA_HOME
 
     # Install Open MPI
     apt-get install --reinstall openmpi-bin libopenmpi-dev
