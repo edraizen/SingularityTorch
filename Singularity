@@ -95,7 +95,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     
 
     #IF NOT FROM SOURCE, UNOCMMENT
-    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install numpy mkl-include pytorch cudatoolkit=10.2 -c pytorch
+    . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install numpy mkl-include pytorch=1.6.0 cudatoolkit=10.2 -c pytorch
 
     . /opt/conda/etc/profile.d/conda.sh && conda activate && conda install mkl-include cudatoolkit=10.2 -c pytorch
 
